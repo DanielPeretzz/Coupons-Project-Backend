@@ -1,9 +1,6 @@
 package com.example.couponsproject.beans;
 import com.example.couponsproject.enums.Category;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +9,8 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "coupon" )
 
@@ -23,7 +21,7 @@ public class Coupon {
 
     @JoinColumn(name = "company_Id", nullable = false)
     @ManyToOne
-    private Company company;
+    private  Company company;
 
     @Column(name = "category",nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -32,7 +30,7 @@ public class Coupon {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description" , nullable = true)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "start_Date", nullable = false)

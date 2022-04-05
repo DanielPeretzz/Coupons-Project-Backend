@@ -1,9 +1,6 @@
 package com.example.couponsproject.beans;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Data
+@Getter
+@Setter
 @Table(name = "customer")
 
 public class Customer {

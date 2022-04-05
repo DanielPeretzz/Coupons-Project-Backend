@@ -1,16 +1,14 @@
 package com.example.couponsproject.beans;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name = "Customer_Vs_Coupon" )
 

@@ -4,14 +4,15 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @ToString
+@Builder
 @Table(name = "coupon" )
 
 public class Coupon {
@@ -24,7 +25,7 @@ public class Coupon {
     private  Company company;
 
     @Column(name = "category",nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(name = "title", nullable = false)
@@ -47,4 +48,12 @@ public class Coupon {
 
     @Column(name = "image", nullable = false)
     private String image;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(
+            name = "customer_to_coupon",
+            joinColumns = @JoinColumn(name = "coupon_Id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_Id")
+    )
+    private List<Customer> customerList;
 }

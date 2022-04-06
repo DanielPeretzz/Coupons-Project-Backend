@@ -12,22 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "customer")
+@Builder
 
 public class Customer {
-    public Customer(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public Customer(String firstName, String lastName, String email, String password, List<Coupon> couponList) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.couponList = couponList;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +30,13 @@ public class Customer {
     private String email;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private Integer password;
 
-    @Transient
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(
+            name = "customer_to_coupon",
+            joinColumns = @JoinColumn(name = "customer_Id"),
+            inverseJoinColumns = @JoinColumn(name = "coupon_Id")
+    )
     private List<Coupon> couponList;
 }

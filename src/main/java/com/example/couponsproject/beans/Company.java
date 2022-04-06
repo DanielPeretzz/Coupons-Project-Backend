@@ -12,21 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 
 public class Company {
 
-    public Company(String email, String name, String password, List<Coupon> couponList) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.couponList = couponList;
-    }
-
-    public Company(String email, String name, String password) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +28,7 @@ public class Company {
     private String name;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private Integer password;
 
     @Transient
     private List<Coupon> couponList;

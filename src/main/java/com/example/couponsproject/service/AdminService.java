@@ -24,7 +24,7 @@ public class AdminService  {
     public Company createCompany(final Company company) {
         Company currentCompany = null;
         try {
-            if (!InputUserValidation.isPasswordValid(company.getPassword())) {
+            if (!InputUserValidation.isPasswordValid(String.valueOf(company.getPassword()))) {
                 throw new UserValidationException();
             }
             if (!InputUserValidation.isEmailValid(company.getEmail())){

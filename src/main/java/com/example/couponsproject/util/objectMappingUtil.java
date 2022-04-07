@@ -6,13 +6,12 @@ import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
-import com.example.couponsproject.repository.CompanyRepository;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
+import lombok.*;
 
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@NoArgsConstructor
 public class objectMappingUtil {
 
 

@@ -1,6 +1,7 @@
 package com.example.couponsproject.service;
 
 import com.example.couponsproject.beans.Company;
+import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.enums.EntityType;
 import com.example.couponsproject.excpetion.EntityExistException;
 import com.example.couponsproject.excpetion.UserValidationException;
@@ -8,43 +9,44 @@ import com.example.couponsproject.repository.CompanyRepository;
 import com.example.couponsproject.repository.CouponRepository;
 import com.example.couponsproject.repository.CustomerRepository;
 import com.example.couponsproject.util.InputUserValidation;
+import com.example.couponsproject.util.objectMappingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @RequiredArgsConstructor
-public class AdminService  {
+public class AdminService {
 
     private final CouponRepository couponRepository;
     private final CompanyRepository companyRepository;
     private final CustomerRepository customerRepository;
 
 
-    public Company createCompany(final Company company) {
-        Company currentCompany = null;
+    public Company createCompany(final CompanyDto companyDto)  {
         try {
-            if (!InputUserValidation.isPasswordValid(String.valueOf(company.getPassword()))) {
+            if (!InputUserValidation.isPasswordValid(companyDto.getPassword())) {
                 throw new UserValidationException();
             }
-            if (!InputUserValidation.isEmailValid(company.getEmail())){
+            if (!InputUserValidation.isEmailValid(companyDto.getEmail())) {
                 throw new UserValidationException();
             }
-            if (companyRepository.findByEmail(company.getEmail()) != null){
+            if (companyRepository.existsByEmail(companyDto.getEmail())) {
                 throw new EntityExistException(EntityType.COMPANY);
             }
 
-            if (companyRepository.findByName(company.getName()) != null){
+            if (companyRepository.existsByName(companyDto.getName())) {
                 throw new EntityExistException(EntityType.COMPANY);
             }
-
-            currentCompany = companyRepository.save(company);
-        } catch (UserValidationException | EntityExistException e) {
+        }
+        catch (UserValidationException | EntityExistException e) {
             System.err.println(e.getMessage());
         }
-        return currentCompany;
-    }
+        Company company = objectMappingUtil.companyDtoToEntity(companyDto);
 
+        return companyRepository.save(company);
+
+    }
 
 
 }

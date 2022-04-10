@@ -1,5 +1,7 @@
 package com.example.couponsproject.beans;
 
+import com.example.couponsproject.service.AdminService;
+import jdk.jfr.TransitionFrom;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +18,6 @@ import java.util.List;
 
 public class Company {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +31,6 @@ public class Company {
     @Column(name = "password", nullable = false)
     private Integer password;
 
-    @Transient
+    @OneToMany(mappedBy = "company" , fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Coupon> couponList;
 }

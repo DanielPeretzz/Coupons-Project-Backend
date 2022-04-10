@@ -14,9 +14,19 @@ import lombok.*;
 @NoArgsConstructor
 public class objectMappingUtil {
 
+//------------------------------------------DTO-TO-Entity---------------------------------------------------------------
 
     public static Company companyDtoToEntity(final CompanyDto companyDto){
         return Company.builder()
+                .name(companyDto.getName())
+                .email(companyDto.getEmail())
+                .password(companyDto.getPassword().hashCode())
+                .build();
+    }
+
+    public static Company companyDtoToEntityUpdate(final CompanyDto companyDto){
+        return Company.builder()
+                .id(companyDto.getId())
                 .name(companyDto.getName())
                 .email(companyDto.getEmail())
                 .password(companyDto.getPassword().hashCode())
@@ -33,10 +43,11 @@ public class objectMappingUtil {
                 .build();
     }
 
+
     public static Coupon couponDtoToEntity(final CouponDto couponDto){
         return Coupon.builder()
                 .category(couponDto.getCategory())
-                /*.company(couponDto.getCompanyId())*/
+                .company(Company.builder().id(couponDto.getCompanyId()).build())
                 .title(couponDto.getTitle())
                 .description(couponDto.getDescription())
                 .startDate(couponDto.getStartDate())
@@ -45,7 +56,45 @@ public class objectMappingUtil {
                 .price(couponDto.getPrice())
                 .image(couponDto.getImage())
                 .build();
-
-
     }
+
+
+//------------------------------------------Entity-TO-Dto---------------------------------------------------------------
+
+
+    public static CouponDto entityToCouponDto(Coupon coupon){
+        return CouponDto.builder()
+                .id(coupon.getId())
+                .category(coupon.getCategory())
+                .companyId(coupon.getCompany().getId())
+                .title(coupon.getTitle())
+                .description(coupon.getDescription())
+                .startDate(coupon.getStartDate())
+                .endDate(coupon.getEndDate())
+                .amount(coupon.getAmount())
+                .price(coupon.getPrice())
+                .image(coupon.getImage())
+                .build();
+    }
+
+
+    public static CustomerDto entityTOCustomerDto(Customer customer){
+        return CustomerDto.builder()
+                .id(customer.getId())
+                .email(customer.getEmail())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .password(String.valueOf(customer.getPassword()))
+                .build();
+    }
+
+    public static CompanyDto entityToCompanyDto(Company company){
+        return CompanyDto.builder()
+                .id(company.getId())
+                .name(company.getName())
+                .email(company.getEmail())
+                .password(String.valueOf(company.getPassword()))
+                .build();
+    }
+
 }

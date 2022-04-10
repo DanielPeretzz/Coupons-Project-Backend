@@ -32,11 +32,12 @@ public class Customer {
     @Column(name = "password", nullable = false)
     private Integer password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "customer_to_coupon",
             joinColumns = @JoinColumn(name = "customer_Id"),
             inverseJoinColumns = @JoinColumn(name = "coupon_Id")
     )
+    @Transient
     private List<Coupon> couponList;
 }

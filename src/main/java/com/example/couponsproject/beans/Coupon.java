@@ -1,16 +1,21 @@
 package com.example.couponsproject.beans;
+
 import com.example.couponsproject.enums.Category;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @ToString
 @Builder
 @Table(name = "coupon" )
@@ -20,9 +25,10 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @JoinColumn(name = "company_Id", nullable = false)
-    @ManyToOne
-    private  Company company;
+    @ManyToOne(fetch = FetchType.EAGER )
+    private Company company;
 
     @Column(name = "category",nullable = false)
     @Enumerated(EnumType.STRING)
@@ -49,11 +55,14 @@ public class Coupon {
     @Column(name = "image", nullable = false)
     private String image;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "customer_to_coupon",
             joinColumns = @JoinColumn(name = "coupon_Id"),
             inverseJoinColumns = @JoinColumn(name = "customer_Id")
     )
     private List<Customer> customerList;
+
+
 }

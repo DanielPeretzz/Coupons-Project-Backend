@@ -17,22 +17,6 @@ public class CouponsProjectApplication {
 
     public static void main(String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(CouponsProjectApplication.class, args);
-        AdminService adminService = applicationContext.getBean(AdminService.class);
-        CouponRepository couponRepository = applicationContext.getBean(CouponRepository.class);
 
-    /*    adminService.deleteCompany(1L);
-        adminService.createCoupon(CouponDto.builder()
-                .title("prxo")
-                .companyId(1L)
-                .description("xxx")
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now())
-                .amount(2)
-                .price(22)
-                .category(Category.VACATION)
-                .image("xxxx").build());
-
-
-*/
     }
 }

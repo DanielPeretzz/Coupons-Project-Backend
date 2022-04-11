@@ -1,6 +1,8 @@
 package com.example.couponsproject.beans;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "password")
 @Getter
 @Setter
 @Table(name = "customer")
@@ -33,6 +35,7 @@ public class Customer {
     private Integer password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "customer_to_coupon",
             joinColumns = @JoinColumn(name = "customer_Id"),

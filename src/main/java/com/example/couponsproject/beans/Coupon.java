@@ -3,11 +3,15 @@ package com.example.couponsproject.beans;
 import com.example.couponsproject.enums.Category;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.web.JsonPath;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 
 @Entity
@@ -15,8 +19,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-@RequiredArgsConstructor
-@ToString
+@ToString(exclude = "customerList" )
 @Builder
 @Table(name = "coupon" )
 
@@ -26,8 +29,8 @@ public class Coupon {
     private Long id;
 
 
-    @JoinColumn(name = "company_Id", nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(optional = false)
     private Company company;
 
     @Column(name = "category",nullable = false)
@@ -56,12 +59,14 @@ public class Coupon {
     private String image;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "customer_to_coupon",
             joinColumns = @JoinColumn(name = "coupon_Id"),
             inverseJoinColumns = @JoinColumn(name = "customer_Id")
     )
+    @ToString.Exclude
     private List<Customer> customerList;
 
 

@@ -8,22 +8,22 @@ import java.util.Optional;
 
 public class optUtil {
 
-  /*  public static Company optionalCompany(Optional<Company> company){
-        if (company.isEmpty()){
+/*    public static Company optionalCompany(Optional<Company> company) {
+        if (company.isEmpty()) {
             return null;
         }
         return company.get();
     }
 
-    public static Coupon optionalCoupon(Optional<Coupon> coupon){
-        if (coupon.isEmpty()){
+    public static Coupon optionalCoupon(Optional<Coupon> coupon) {
+        if (coupon.isEmpty()) {
             return null;
         }
         return coupon.get();
     }
 
-    public static Customer optionalCustomer(Optional<Customer> customer){
-        if (customer.isEmpty()){
+    public static Customer optionalCustomer(Optional<Customer> customer) {
+        if (customer.isEmpty()) {
             return null;
         }
         return customer.get();

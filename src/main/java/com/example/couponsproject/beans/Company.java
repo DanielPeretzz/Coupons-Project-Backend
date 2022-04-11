@@ -1,7 +1,5 @@
 package com.example.couponsproject.beans;
 
-import com.example.couponsproject.service.AdminService;
-import jdk.jfr.TransitionFrom;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "password")
 @Builder
 
 public class Company {
@@ -31,6 +29,8 @@ public class Company {
     @Column(name = "password", nullable = false)
     private Integer password;
 
-    @OneToMany(mappedBy = "company" , fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ToString.Exclude
     private List<Coupon> couponList;
 }

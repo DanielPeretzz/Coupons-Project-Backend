@@ -43,6 +43,17 @@ public class objectMappingUtil {
                 .build();
     }
 
+    public static Customer customerDtoToEntityUpdate(final CustomerDto customerDto){
+        return Customer.builder()
+                .id(customerDto.getId())
+                .firstName(customerDto.getFirstName())
+                .lastName(customerDto.getLastName())
+                .email(customerDto.getEmail())
+                .password(customerDto.getPassword().hashCode())
+                .build();
+    }
+
+
 
     public static Coupon couponDtoToEntity(final CouponDto couponDto){
         return Coupon.builder()

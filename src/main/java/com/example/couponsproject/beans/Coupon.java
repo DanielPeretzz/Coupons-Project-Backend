@@ -2,6 +2,7 @@ package com.example.couponsproject.beans;
 
 import com.example.couponsproject.enums.Category;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,7 +20,6 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "customerList" )
 @Builder
 @Table(name = "coupon" )
 
@@ -66,8 +66,21 @@ public class Coupon {
             joinColumns = @JoinColumn(name = "coupon_Id"),
             inverseJoinColumns = @JoinColumn(name = "customer_Id")
     )
-    @ToString.Exclude
     private List<Customer> customerList;
 
-
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "id=" + id +
+                ", companyId=" + company.getId() +
+                ", category=" + category +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

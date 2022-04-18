@@ -69,6 +69,21 @@ public class objectMappingUtil {
                 .build();
     }
 
+    public static Coupon couponDtoToEntityUpdate(final CouponDto couponDto){
+        return Coupon.builder()
+                .id(couponDto.getId())
+                .category(couponDto.getCategory())
+                .company(Company.builder().id(couponDto.getCompanyId()).build())
+                .title(couponDto.getTitle())
+                .description(couponDto.getDescription())
+                .startDate(couponDto.getStartDate())
+                .endDate(couponDto.getEndDate())
+                .amount(couponDto.getAmount())
+                .price(couponDto.getPrice())
+                .image(couponDto.getImage())
+                .build();
+    }
+
 
 //------------------------------------------Entity-TO-Dto---------------------------------------------------------------
 

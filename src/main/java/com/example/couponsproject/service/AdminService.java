@@ -1,14 +1,16 @@
+/*
 package com.example.couponsproject.service;
 
 import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.beans.Coupon;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
+import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.enums.EntityType;
 import com.example.couponsproject.excpetion.EntityExistException;
 import com.example.couponsproject.excpetion.EntityNotExistException;
-import com.example.couponsproject.excpetion.UpdateNameException;
+import com.example.couponsproject.excpetion.UpdateEntityException;
 import com.example.couponsproject.excpetion.UserValidationException;
 import com.example.couponsproject.repository.CompanyRepository;
 import com.example.couponsproject.repository.CouponRepository;
@@ -16,24 +18,25 @@ import com.example.couponsproject.repository.CustomerRepository;
 import com.example.couponsproject.util.InputUserValidation;
 import com.example.couponsproject.util.objectMappingUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-/*import static com.example.couponsproject.util.optUtil.optionalCompany;
-import static com.example.couponsproject.util.optUtil.optionalCustomer;*/
+import static com.example.couponsproject.util.optUtil.*;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminService {
 
     private final CouponRepository couponRepository;
     private final CompanyRepository companyRepository;
     private final CustomerRepository customerRepository;
 
-/*
+
 //-------------------------------------------------Admin-Service--------------------------------------------------------
 
     //---------------------------------------------Create-Company-------------------------------------------------------
@@ -50,13 +53,14 @@ public class AdminService {
         if (companyRepository.existsByName(companyDto.getName())) {
             throw new EntityExistException(EntityType.COMPANY);
         }
+        log.info("New company created successfully !");
         return companyRepository.save(objectMappingUtil.companyDtoToEntity(companyDto));
 
     }
 
     //-------------------------------------------Update-Company---------------------------------------------------------
 
-    public void updateCompany(CompanyDto companyDto) throws UpdateNameException, UserValidationException
+    public void updateCompany(CompanyDto companyDto) throws UpdateEntityException, UserValidationException
             , EntityExistException {
 
         if (!companyRepository.existsById(companyDto.getId())) {
@@ -71,7 +75,7 @@ public class AdminService {
 
         assert getCompany != null;
         if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
-            throw new UpdateNameException(companyDto.getName());
+            throw new UpdateEntityException(companyDto.getName());
         }
         companyRepository.save(objectMappingUtil.companyDtoToEntityUpdate(companyDto));
     }
@@ -163,5 +167,7 @@ public class AdminService {
         }
 
         return optionalCustomer(customerRepository.findById(customerId));
-    }*/
+    }
+
 }
+*/

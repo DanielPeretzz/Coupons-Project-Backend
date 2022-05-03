@@ -1,17 +1,16 @@
-/*
+
 package com.example.couponsproject.service;
 
 import com.example.couponsproject.beans.Company;
-import com.example.couponsproject.beans.Coupon;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.enums.EntityType;
-import com.example.couponsproject.excpetion.EntityExistException;
-import com.example.couponsproject.excpetion.EntityNotExistException;
-import com.example.couponsproject.excpetion.UpdateEntityException;
-import com.example.couponsproject.excpetion.UserValidationException;
+import com.example.couponsproject.error.excpetion.EntityExistException;
+import com.example.couponsproject.error.excpetion.EntityNotExistException;
+import com.example.couponsproject.error.excpetion.UpdateEntityException;
+import com.example.couponsproject.error.excpetion.UserValidationException;
 import com.example.couponsproject.repository.CompanyRepository;
 import com.example.couponsproject.repository.CouponRepository;
 import com.example.couponsproject.repository.CustomerRepository;
@@ -24,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.couponsproject.util.objectMappingUtil.entityTOCustomerDto;
+import static com.example.couponsproject.util.objectMappingUtil.entityToCouponDto;
 import static com.example.couponsproject.util.optUtil.*;
 
 
@@ -77,25 +78,25 @@ public class AdminService {
         if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
             throw new UpdateEntityException(companyDto.getName());
         }
+        log.info(companyDto.getId() + " has been update successfully !");
         companyRepository.save(objectMappingUtil.companyDtoToEntityUpdate(companyDto));
     }
 
     //-------------------------------------------read-Company-----------------------------------------------------------
-    public Company readCompany(Long companyId) throws EntityNotExistException {
+    public CompanyDto readCompany(Long companyId) throws EntityNotExistException {
 
         if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
 
-        List<Coupon> couponList = couponRepository.findByCompanyId(companyId);
+        CompanyDto companyDto = objectMappingUtil
+                .entityToCompanyDto(Objects.requireNonNull(optionalCompany(companyRepository.findById(companyId))));
 
-        Company company = optionalCompany(companyRepository.findById(companyId));
+        List<CouponDto> couponDtoList = entityToCouponDto(couponRepository.findByCompanyId(companyId));
+        companyDto.setCouponDtoList(couponDtoList);
 
-        assert company != null;
 
-        company.setCouponList(couponList);
-
-        return company;
+        return companyDto;
     }
 
     //-------------------------------------------delete-company---------------------------------------------------------
@@ -105,6 +106,7 @@ public class AdminService {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
         companyRepository.deleteById(companyId);
+        log.info(companyId + " has been deleted !");
     }
 
     //--------------------------------------------read-All-Company------------------------------------------------------
@@ -123,6 +125,7 @@ public class AdminService {
         if (customerRepository.existsByEmail(customerDto.getEmail())) {
             throw new EntityExistException(EntityType.CUSTOMER);
         }
+        log.info("customer created !");
         return customerRepository.save(objectMappingUtil.customerDtoToEntity(customerDto));
     }
 
@@ -141,6 +144,8 @@ public class AdminService {
         Customer customer = objectMappingUtil.customerDtoToEntityUpdate(customerDto);
 
         customerRepository.saveAndFlush(customer);
+
+        log.info(customerDto.getEmail() + " updated successfully");
     }
 
     //--------------------------------------------delete-Customer-------------------------------------------------------
@@ -151,6 +156,7 @@ public class AdminService {
         }
 
         customerRepository.deleteById(customerId);
+        log.info(customerId + " has been delete ");
     }
 
     //--------------------------------------------read-All-Customer-----------------------------------------------------
@@ -161,13 +167,13 @@ public class AdminService {
 
     //--------------------------------------------read-Customer---------------------------------------------------------
 
-    public Customer readCustomer(Long customerId) throws EntityNotExistException {
+    public CustomerDto readCustomer(Long customerId) throws EntityNotExistException {
         if (!customerRepository.existsById(customerId)) {
             throw new EntityNotExistException(EntityType.CUSTOMER);
         }
 
-        return optionalCustomer(customerRepository.findById(customerId));
+        return entityTOCustomerDto(Objects.requireNonNull(optionalCustomer(customerRepository.findById(customerId))));
     }
 
 }
-*/
+

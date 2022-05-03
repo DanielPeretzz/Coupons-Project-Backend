@@ -1,5 +1,8 @@
 package com.example.couponsproject.dto;
+
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @ToString
@@ -12,4 +15,6 @@ public class CompanyDto {
     private String email;
     private String name;
     private String password;
+    private List<CouponDto> couponDtoList;
+
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class optUtil {
 
-  /* public static Company optionalCompany(Optional<Company> company) {
+   public static Company optionalCompany(Optional<Company> company) {
         if (company.isEmpty()) {
             return null;
         }
@@ -27,5 +27,5 @@ public class optUtil {
             return null;
         }
         return customer.get();
-    }*/
+    }
 }

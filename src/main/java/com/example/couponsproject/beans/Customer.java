@@ -41,6 +41,5 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_Id"),
             inverseJoinColumns = @JoinColumn(name = "coupon_Id")
     )
-    @Transient
     private List<Coupon> couponList;
 }

@@ -1,10 +1,12 @@
-/*
+
 package com.example.couponsproject.service;
 
 import com.example.couponsproject.beans.Coupon;
+import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
+import com.example.couponsproject.enums.Category;
 import com.example.couponsproject.enums.EntityType;
-import com.example.couponsproject.excpetion.*;
+import com.example.couponsproject.error.excpetion.*;
 import com.example.couponsproject.repository.CompanyRepository;
 import com.example.couponsproject.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +16,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import static com.example.couponsproject.util.objectMappingUtil.couponDtoToEntity;
-import static com.example.couponsproject.util.objectMappingUtil.couponDtoToEntityUpdate;
+import static com.example.couponsproject.util.objectMappingUtil.*;
+import static com.example.couponsproject.util.optUtil.optionalCompany;
+import static com.example.couponsproject.util.optUtil.optionalCoupon;
 
 
 @Service
@@ -81,5 +85,59 @@ public class CompanyService {
 
         couponRepository.deleteById(couponId);
     }
+
+    //--------------------------------------------Read-all-coupon-by-company-id-----------------------------------------
+
+    public List<CouponDto> readCompanyCoupons(Long companyId) throws EntityNotExistException {
+
+        if (!companyRepository.existsById(companyId)){
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+
+        return entityToCouponDto(couponRepository.findByCompanyId(companyId));
+    }
+
+    //--------------------------------------------read-Coupon-by-Category-----------------------------------------------
+
+    public List<CouponDto> readCouponByCategory(Long companyId , Category category) throws EntityNotExistException {
+        if (!companyRepository.existsById(companyId)){
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+        if (!couponRepository.existsByCategory(category)){ //fix the method repository
+            throw new EntityNotExistException(EntityType.COUPON);
+        }
+         return entityToCouponDto(couponRepository.findByCompanyId(companyId)
+                 .stream()
+                 .filter(coupon -> coupon.getCategory() == category)
+                 .collect(Collectors.toList()));
+
+    }
+
+    //--------------------------------------------read-Coupon-by-max-price----------------------------------------------
+
+    public List<CouponDto> readCouponUtilPrice(Long companyId, double price) throws EntityNotExistException {
+        if (!companyRepository.existsById(companyId)){
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+        return entityToCouponDto(couponRepository.findByCompanyId(companyId)
+                .stream()
+                .filter(coupon -> coupon.getPrice() <= price)
+                .collect(Collectors.toList()));
+    }
+
+    //--------------------------------------------read-company-by-id----------------------------------------------------
+
+    public CompanyDto readCompany(Long companyId) throws EntityNotExistException {
+        if (!companyRepository.existsById(companyId)){
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+
+        CompanyDto companyDto = entityToCompanyDto(Objects.requireNonNull(optionalCompany(companyRepository.findById(companyId))));
+
+        companyDto.setCouponDtoList(entityToCouponDto(couponRepository.findByCompanyId(companyId)));
+
+        return companyDto;
+    }
+
 }
-*/
+

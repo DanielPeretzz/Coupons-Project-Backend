@@ -1,6 +1,7 @@
 package com.example.couponsproject.beans;
 
 import com.example.couponsproject.enums.Category;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.Hibernate;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
 @Getter
 @Setter
 @Builder
-@Table(name = "coupon" )
+@Table(name = "coupon")
 
 public class Coupon {
     @Id
@@ -33,7 +34,7 @@ public class Coupon {
     @ManyToOne(optional = false)
     private Company company;
 
-    @Column(name = "category",nullable = false)
+    @Column(name = "category", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -43,9 +44,11 @@ public class Coupon {
     @Column(name = "description")
     private String description;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "start_Date", nullable = false)
     private LocalDate startDate;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "end_Date", nullable = false)
     private LocalDate endDate;
 
@@ -59,7 +62,7 @@ public class Coupon {
     private String image;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "customer_to_coupon",

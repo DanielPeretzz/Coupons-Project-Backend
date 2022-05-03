@@ -1,4 +1,4 @@
-package com.example.couponsproject.excpetion;
+package com.example.couponsproject.error.excpetion;
 
 public class UserValidationException extends ApplicationException {
 

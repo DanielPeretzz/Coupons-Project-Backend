@@ -2,8 +2,10 @@ package com.example.couponsproject.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
-@ToString
+@ToString(exclude = "password")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -13,4 +15,5 @@ public class CustomerDto {
     private String lastName;
     private String email;
     private String password;
+    private List<CouponDto> couponDtoList;
 }

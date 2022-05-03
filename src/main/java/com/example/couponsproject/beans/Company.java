@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-/*@ToString(exclude =  "password")*/
+@ToString
 @Builder
 
 public class Company {
@@ -20,18 +20,19 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", unique = true , nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "name",unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @ToString.Exclude
     @Column(name = "password", nullable = false)
     private Integer password;
 
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Transient
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Coupon> couponList;
 
 }

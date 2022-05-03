@@ -1,4 +1,4 @@
-package com.example.couponsproject.excpetion;
+package com.example.couponsproject.error.excpetion;
 
 import com.example.couponsproject.enums.EntityType;
 

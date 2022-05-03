@@ -12,7 +12,7 @@
 	<artifactId>coupons-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>coupons-project</name>
-	<description>Coupon project JohneBryce</description>
+	<description>Coupon project JohnBryce</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -36,6 +36,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 	</dependencies>
 

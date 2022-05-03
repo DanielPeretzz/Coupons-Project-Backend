@@ -19,6 +19,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CouponsProjectApplication {
 
     public static void main(String[] args){
-        ApplicationContext applicationContext = SpringApplication.run(CouponsProjectApplication.class, args);
+         SpringApplication.run(CouponsProjectApplication.class, args);
     }
 }

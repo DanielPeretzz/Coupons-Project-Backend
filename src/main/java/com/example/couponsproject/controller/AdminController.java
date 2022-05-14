@@ -60,13 +60,13 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/customer")
-    public CustomerDto createCustomer(@RequestBody final CustomerDto customerDto)
+    public Customer createCustomer(@RequestBody final CustomerDto customerDto)
             throws UserValidationException, EntityExistException {
-        return entityTOCustomerDto(adminService.createCustomer(customerDto));
+        return adminService.createCustomer(customerDto);
     }
 
     @PutMapping("/customer")
-    public void updateCustomer(CustomerDto customerDto) throws UserValidationException, EntityExistException {
+    public void updateCustomer(@RequestBody CustomerDto customerDto) throws UserValidationException, EntityExistException {
         adminService.updateCustomer(customerDto);
     }
 

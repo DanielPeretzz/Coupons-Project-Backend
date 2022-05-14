@@ -78,7 +78,7 @@ public class AdminService {
         if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
             throw new UpdateEntityException(companyDto.getName());
         }
-        log.info(companyDto.getId() + " has been update successfully !");
+        log.info(companyDto.getName() + " has been update successfully !");
         companyRepository.save(objectMappingUtil.companyDtoToEntityUpdate(companyDto));
     }
 
@@ -111,6 +111,7 @@ public class AdminService {
 
     //--------------------------------------------read-All-Company------------------------------------------------------
     public List<Company> readAllCompany() {
+        System.out.println(companyRepository.findAll());
         return companyRepository.findAll();
     }
 
@@ -126,7 +127,9 @@ public class AdminService {
             throw new EntityExistException(EntityType.CUSTOMER);
         }
         log.info("customer created !");
+
         return customerRepository.save(objectMappingUtil.customerDtoToEntity(customerDto));
+
     }
 
 
@@ -141,9 +144,7 @@ public class AdminService {
             throw new UserValidationException();
         }
 
-        Customer customer = objectMappingUtil.customerDtoToEntityUpdate(customerDto);
-
-        customerRepository.saveAndFlush(customer);
+        customerRepository.save(objectMappingUtil.customerDtoToEntityUpdate(customerDto));
 
         log.info(customerDto.getEmail() + " updated successfully");
     }

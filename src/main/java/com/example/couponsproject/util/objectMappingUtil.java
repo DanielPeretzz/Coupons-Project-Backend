@@ -91,22 +91,12 @@ public class objectMappingUtil {
 //------------------------------------------Entity-TO-Dto---------------------------------------------------------------
 
     public static List<CouponDto> entityToCouponDto(List<Coupon> couponList){
-        List<CouponDto> couponDto = new ArrayList<>();
+        List<CouponDto> couponDtoList = new ArrayList<>();
         for (Coupon coupon : couponList) {
-            couponDto.add(CouponDto.builder()
-                    .id(coupon.getId())
-                    .category(coupon.getCategory())
-                    .companyId(coupon.getCompany().getId())
-                    .title(coupon.getTitle())
-                    .description(coupon.getDescription())
-                    .startDate(coupon.getStartDate())
-                    .endDate(coupon.getEndDate())
-                    .amount(coupon.getAmount())
-                    .price(coupon.getPrice())
-                    .image(coupon.getImage())
-                    .build());
+            couponDtoList.add(entityToCouponDto(coupon));
         }
-        return couponDto;
+
+        return couponDtoList;
     }
     public static CouponDto entityToCouponDto(Coupon coupon){
         return CouponDto.builder()

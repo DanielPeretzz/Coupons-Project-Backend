@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
@@ -29,6 +30,8 @@ public class AdminTest {
         readCustomerTest();
         readAllCustomerTest();
         deleteCustomerTest();
+        companyCreateTest();
+        createCustomerTest();
     }
 
     public void companyCreateTest() {
@@ -71,9 +74,13 @@ public class AdminTest {
     }
 
     public void readAllCompanyTest() {
-        restTemplate.getForEntity("http://localhost:8080/admin/company", null);
 
-        log.info("read all test successfully ! " );
+       final ResponseEntity<List> responseEntity = restTemplate
+               .getForEntity("http://localhost:8080/admin/company", List.class);
+
+       List companyDtoList = responseEntity.getBody();
+
+        log.info("read all test successfully ! : \n " + companyDtoList);
     }
 
     public void createCustomerTest(){
@@ -89,7 +96,7 @@ public class AdminTest {
 
         final CustomerDto customerDtoRes = responseEntity.getBody();
 
-        log.info("create customer test successfully ! \n " );
+        log.info("create customer test successfully ! \n " + customerDtoRes );
     }
 
     public void updateCustomerTest(){
@@ -120,7 +127,9 @@ public class AdminTest {
     }
 
     public void readAllCustomerTest(){
-        restTemplate.getForEntity("http://localhost:8080/admin/customer",null);
-        log.info("read all ");
+        final ResponseEntity<List> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/admin/customer",List.class);
+        List customerList = responseEntity.getBody();
+        log.info("read all customer test successfully! : \n"  + customerList);
     }
 }

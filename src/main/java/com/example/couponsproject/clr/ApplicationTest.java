@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 public class ApplicationTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
     private final AdminTest adminTest;
+    private final CompanyTest companyTest;
+    private final CustomerTest customerTest;
 
     @Override
     public void run(String... args)  {
@@ -22,7 +24,8 @@ public class ApplicationTest implements CommandLineRunner {
 
     public void TestAll(){
         adminTest.adminTest();
-
+        companyTest.companyTest();
+        customerTest.customerTest();
     }
 
 

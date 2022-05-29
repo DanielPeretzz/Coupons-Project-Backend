@@ -2,6 +2,7 @@ package com.example.couponsproject.clr;
 
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
+import com.example.couponsproject.dto.listDto.CouponLIstDto;
 import com.example.couponsproject.enums.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,27 +79,27 @@ public class CompanyTest {
     }
 
     public void readAllCouponsTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-coupon/2",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/company/read-coupon/2",CouponLIstDto.class);
 
-        final List couponList = responseEntity.getBody();
+        final CouponLIstDto couponList = responseEntity.getBody();
 
         log.info("read all coupon test Successfully! : \n " + couponList);
     }
     public void  readByCategoryTest(){
 
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-by-category/2/VACATION",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/company/read-by-category/2/VACATION",CouponLIstDto.class);
 
-        List couponDtoList = responseEntity.getBody();
+        CouponLIstDto couponDtoList = responseEntity.getBody();
         log.info("read coupon by category test Successfully ! : \n " + couponDtoList);
     }
 
     public void readCouponUtilPriceTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-by-price/2/10",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/company/read-by-price/2/10",CouponLIstDto.class);
 
-        final List couponList = responseEntity.getBody();
+        final CouponLIstDto couponList = responseEntity.getBody();
 
         log.info("read coupon by price Test Successfully! : \n " + couponList);
     }

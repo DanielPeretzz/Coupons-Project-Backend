@@ -4,6 +4,8 @@ import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
+import com.example.couponsproject.dto.listDto.CompanyListDto;
+import com.example.couponsproject.dto.listDto.CustomerListDto;
 import com.example.couponsproject.error.excpetion.EntityExistException;
 import com.example.couponsproject.error.excpetion.EntityNotExistException;
 import com.example.couponsproject.error.excpetion.UpdateEntityException;
@@ -52,8 +54,8 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/company")
-    public List<Company> readAllCompany() {
-        return adminService.readAllCompany();
+    public CompanyListDto readAllCompany() {
+        return new CompanyListDto(adminService.readAllCompany());
     }
 
     //-------------------------------------------------Customer-controller----------------------------------------------
@@ -77,8 +79,8 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/customer")
-    public List<Customer> getAllCustomer(){
-       return adminService.readAllCustomer();
+    public CustomerListDto getAllCustomer(){
+       return new CustomerListDto(adminService.readAllCustomer());
     }
 
     @ResponseStatus(HttpStatus.FOUND)

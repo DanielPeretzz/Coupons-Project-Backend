@@ -2,6 +2,8 @@ package com.example.couponsproject.clr;
 
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
+import com.example.couponsproject.dto.listDto.CompanyListDto;
+import com.example.couponsproject.dto.listDto.CustomerListDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class AdminTest {
 
 
     public void adminTest() {
-        companyCreateTest();
-        updateCompanyTest();
+        System.out.println(companyCreateTest());
+/*        updateCompanyTest();
         readCompanyTest();
         readAllCompanyTest();
         deleteCompanyTest();
@@ -31,10 +33,10 @@ public class AdminTest {
         readAllCustomerTest();
         deleteCustomerTest();
         companyCreateTest();
-        createCustomerTest();
+        createCustomerTest()*/;
     }
 
-    public void companyCreateTest() {
+    public boolean companyCreateTest() {
 
         CompanyDto companyDto = CompanyDto.builder()
                 .name("companyTest")
@@ -46,7 +48,9 @@ public class AdminTest {
 
         final CompanyDto companyDtoRes = responseEntity.getBody();
 
-        log.info("create company test successfully! : \n" + companyDtoRes);
+        System.out.println(companyDtoRes);
+
+        return companyDtoRes != null;
     }
 
     public void updateCompanyTest() {
@@ -75,10 +79,10 @@ public class AdminTest {
 
     public void readAllCompanyTest() {
 
-       final ResponseEntity<List> responseEntity = restTemplate
-               .getForEntity("http://localhost:8080/admin/company", List.class);
+       final ResponseEntity<CompanyListDto> responseEntity = restTemplate
+               .getForEntity("http://localhost:8080/admin/company", CompanyListDto.class);
 
-       List companyDtoList = responseEntity.getBody();
+        CompanyListDto companyDtoList = responseEntity.getBody();
 
         log.info("read all test successfully ! : \n " + companyDtoList);
     }
@@ -127,9 +131,9 @@ public class AdminTest {
     }
 
     public void readAllCustomerTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/admin/customer",List.class);
-        List customerList = responseEntity.getBody();
+        final ResponseEntity<CustomerListDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/admin/customer",CustomerListDto.class);
+        CustomerListDto customerList = responseEntity.getBody();
         log.info("read all customer test successfully! : \n"  + customerList);
     }
 }

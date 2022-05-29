@@ -2,6 +2,7 @@ package com.example.couponsproject.clr;
 
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
+import com.example.couponsproject.dto.listDto.CouponLIstDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,28 +31,28 @@ public class CustomerTest {
     }
 
     public void getCouponTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/customer/get-coupon/2",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/customer/get-coupon/2",CouponLIstDto.class);
 
-        final List couponListRes = responseEntity.getBody();
+        final CouponLIstDto couponListRes = responseEntity.getBody();
 
         log.info("get coupon by customer id test Successfully ! : \n" +couponListRes);
     }
 
     public void getCouponByCategoryTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/customer/get-coupon-category/2/VACATION",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/customer/get-coupon-category/2/VACATION",CouponLIstDto.class);
 
-        final List couponListRes = responseEntity.getBody();
+        final CouponLIstDto couponListRes = responseEntity.getBody();
 
         log.info("get coupon by category Successfully ! : \n " + couponListRes);
     }
 
     public void getCouponByPriceTest(){
-        final ResponseEntity<List> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/customer/get-by-price/2/40",List.class);
+        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                .getForEntity("http://localhost:8080/customer/get-by-price/2/40",CouponLIstDto.class);
 
-        final List couponListRes = responseEntity.getBody();
+        final CouponLIstDto couponListRes = responseEntity.getBody();
 
         log.info("get coupon by price Successfully ! : \n " + couponListRes);
     }

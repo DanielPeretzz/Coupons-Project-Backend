@@ -24,8 +24,8 @@ public class ApplicationTest implements CommandLineRunner {
 
     public void TestAll(){
         adminTest.adminTest();
-        companyTest.companyTest();
-        customerTest.customerTest();
+/*        companyTest.companyTest();
+        customerTest.customerTest();*/
     }
 
 

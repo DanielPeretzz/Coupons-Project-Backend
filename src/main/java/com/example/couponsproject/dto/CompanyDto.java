@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 
-public class CompanyDto {
+public class CompanyDto extends UserDto{
     private Long id;
     private String email;
     private String name;

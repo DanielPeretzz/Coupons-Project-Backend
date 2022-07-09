@@ -26,30 +26,30 @@ public class CustomerController {
         customerService.purchaseCoupon(customerId, couponId);
     }
 
-    @GetMapping("/get-coupon/{customerId}")
+    @GetMapping("/coupon/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto getCoupon(@PathVariable final Long customerId) throws EntityNotExistException {
         return new CouponLIstDto(customerService.getCoupon(customerId));
     }
 
-    @GetMapping("/get-coupon-category/{customerId}/{category}")
+    @GetMapping("/category/{customerId}/")
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto getCouponByCategory(@PathVariable(name = "customerId") final Long customerId,
-                                               @PathVariable(name = "category") Category category)
+                                               @RequestParam(name = "category") Category category)
             throws EntityNotExistException {
         return new CouponLIstDto(customerService.getCouponByCategory(customerId, category));
     }
 
 
-    @GetMapping("/get-by-price/{customerId}/{price}")
+    @GetMapping("/price/{customerId}/")
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto getCouponByPrice(@PathVariable(name = "customerId") final Long customerId,
-                                          @PathVariable(name = "price") final double price)
+                                          @RequestParam(name = "price") final double price)
             throws EntityNotExistException {
         return new CouponLIstDto(customerService.getCouponByPrice(customerId, price));
     }
 
-    @GetMapping("/get-customer/{customerId}")
+    @GetMapping("/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
     public CustomerDto getCustomer(@PathVariable Long customerId) throws EntityNotExistException {
         return customerService.getCustomer(customerId);

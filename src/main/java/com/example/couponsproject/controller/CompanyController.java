@@ -20,27 +20,26 @@ import static com.example.couponsproject.util.objectMappingUtil.entityToCouponDt
 public class CompanyController {
     private final CompanyService companyService;
 
-    @PostMapping("/create")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public CouponDto createCoupon(@RequestBody final CouponDto couponDto)
             throws EntityExistException, CouponExpirationDateArrived {
         return entityToCouponDto(companyService.createCoupon(couponDto));
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public void updateCoupon(@RequestBody final CouponDto couponDto)
             throws UserValidationException, UpdateEntityException, EntityNotExistException {
         companyService.updateCoupon(couponDto);
     }
 
-
-    @DeleteMapping("/delete/{companyId}")
+    @DeleteMapping("/{companyId}")
     public void deleteCoupon(@PathVariable final Long companyId) throws EntityNotExistException {
         companyService.deleteCoupon(companyId);
     }
 
 
-    @GetMapping("/read-coupon/{companyId}")
+    @GetMapping("/read-coupon/{companyId}") // can remove read-coupon
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto readAllCoupons(@PathVariable(name = "companyId") final Long companyId)
             throws EntityNotExistException {
@@ -48,17 +47,17 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/read-by-category/{companyId}/{category}")
+    @GetMapping("/read-by-category/{companyId}/")
     public CouponLIstDto readByCategory(@PathVariable(name = "companyId") final Long companyId ,
-                                          @PathVariable(name = "category")  final Category category)
+                                          @RequestParam() final Category category)
             throws EntityNotExistException {
         return new CouponLIstDto(companyService.readCouponByCategory(companyId,category));
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/read-by-price/{companyId}/{price}")
+    @GetMapping("/read-by-price/{companyId}/")
     public CouponLIstDto readCouponUtilPrice(@PathVariable(name = "companyId") Long companyId,
-                                              @PathVariable(name = "price") double price)
+                                              @RequestParam double price)
                                                 throws EntityNotExistException {
         return new CouponLIstDto(companyService.readCouponUtilPrice(companyId,price));
     }

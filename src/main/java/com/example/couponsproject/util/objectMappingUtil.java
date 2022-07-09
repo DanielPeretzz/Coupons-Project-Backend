@@ -7,7 +7,9 @@ import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
 
+import com.example.couponsproject.dto.UserDto;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +134,18 @@ public class objectMappingUtil {
                 .email(company.getEmail())
                 .password(String.valueOf(company.getPassword()))
                 .build();
+    }
+
+
+
+
+
+    public static UserDetails userToSpringSecurityUser(final UserDto userDto) {
+        return new org.springframework.security.core.userdetails.User(
+                userDto.getEmail(),
+                String.valueOf(userDto.getPassword()),
+                new ArrayList<>()
+        );
     }
 
 }

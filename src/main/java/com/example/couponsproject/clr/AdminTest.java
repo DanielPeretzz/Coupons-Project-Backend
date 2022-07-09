@@ -4,6 +4,7 @@ import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.listDto.CompanyListDto;
 import com.example.couponsproject.dto.listDto.CustomerListDto;
+import com.example.couponsproject.error.excpetion.ApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AdminTest {
 
 
     public void adminTest() {
-        System.out.println(companyCreateTest());
+        System.out.println("Create company Test status : " + companyCreateTest());
 /*        updateCompanyTest();
         readCompanyTest();
         readAllCompanyTest();
@@ -37,20 +38,23 @@ public class AdminTest {
     }
 
     public boolean companyCreateTest() {
+        CompanyDto companyDtoRes;
+        try {
+            final CompanyDto companyDto = CompanyDto.builder()
+                    .name("companyTest")
+                    .email("companyTest@gmail.com")
+                    .password("test").build();
 
-        CompanyDto companyDto = CompanyDto.builder()
-                .name("companyTest")
-                .email("companyTest@gmail.com")
-                .password("test").build();
+            final ResponseEntity<CompanyDto> responseEntity = restTemplate.postForEntity
+                    ("http://localhost:8080/admin/company", companyDto, CompanyDto.class);
 
-        final ResponseEntity<CompanyDto> responseEntity = restTemplate.postForEntity
-                ("http://localhost:8080/admin/company", companyDto, CompanyDto.class);
-
-        final CompanyDto companyDtoRes = responseEntity.getBody();
-
+            companyDtoRes = responseEntity.getBody();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            return false;
+        }
         System.out.println(companyDtoRes);
-
-        return companyDtoRes != null;
+        return true;
     }
 
     public void updateCompanyTest() {

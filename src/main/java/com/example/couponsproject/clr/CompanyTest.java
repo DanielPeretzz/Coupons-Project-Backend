@@ -22,18 +22,18 @@ public class CompanyTest {
 
     public void companyTest(){
         createCouponTest();
-        updateCouponTest();
+/*        updateCouponTest();
         readAllCouponsTest();
         readByCategoryTest();
         readCouponUtilPriceTest();
         readCompanyTest();
         deleteCouponTest();
-        createCouponTest();
+        createCouponTest();*/
     }
 
     public void createCouponTest(){
         final CouponDto couponDto = CouponDto.builder()
-                .companyId(2L)
+                .companyId(1L)
                 .category(Category.VACATION)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now())
@@ -45,7 +45,7 @@ public class CompanyTest {
                 .build();
 
         final ResponseEntity<CouponDto> couponDtoResponseEntity = restTemplate
-                .postForEntity("http://localhost:8080/company/create",couponDto,CouponDto.class);
+                .postForEntity("http://localhost:8080/company",couponDto,CouponDto.class);
 
         final CouponDto couponDtoRes = couponDtoResponseEntity.getBody();
 

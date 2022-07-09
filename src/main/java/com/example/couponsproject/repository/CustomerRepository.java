@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
     boolean  existsByEmail(final String Email);
-
+    Customer findByEmail(final String Email);
 }

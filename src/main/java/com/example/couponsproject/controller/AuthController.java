@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("authentication")
+@RequestMapping("login")
 @RestController
 @RequiredArgsConstructor
 public class AuthController {

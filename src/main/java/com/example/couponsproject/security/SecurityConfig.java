@@ -19,8 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtRequestFilter jwtRequestFilter;
+    private final com.example.couponsproject.security.JwtRequestFilter jwtRequestFilter;
     private final CustomUserDetailsService userDetailsService;
+
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -40,10 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeHttpRequests().antMatchers("/authentication", "/admin/*").permitAll()
-                .anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Turns off the Spring Security session management (Makes it stateless)
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adds out filter to the filter chain
+                .authorizeHttpRequests()
+                .antMatchers("/login","/swagger-ui.html").permitAll()
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/customer/**").hasAnyAuthority("CUSTOMER","ADMIN")
+                .antMatchers("/company/**").hasAnyAuthority("COMPANY","ADMIN")
+                .anyRequest()
+                .authenticated()
+
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -52,8 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
 }

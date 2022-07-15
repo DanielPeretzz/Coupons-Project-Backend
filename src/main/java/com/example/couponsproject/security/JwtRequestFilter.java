@@ -30,12 +30,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_AUTH_SCHEME_START)) {
             final String jwt = authorizationHeader.substring(TOKEN_START_INDEX);
-            final String email = JwtUtil.extractEmail(jwt);
+            final String email = com.example.couponsproject.security.JwtUtil.extractEmail(jwt);
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 final UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
-                if (JwtUtil.validateToken(jwt, userDetails)) {
+                if (com.example.couponsproject.security.JwtUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities()
                     );

@@ -1,6 +1,5 @@
 package com.example.couponsproject.controller;
 
-import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.listDto.CouponLIstDto;
 import com.example.couponsproject.enums.Category;
@@ -10,8 +9,6 @@ import com.example.couponsproject.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

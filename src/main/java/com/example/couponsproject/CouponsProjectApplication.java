@@ -1,7 +1,5 @@
 package com.example.couponsproject;
 
-import com.example.couponsproject.dto.CouponDto;
-import com.example.couponsproject.enums.Category;
 import com.example.couponsproject.error.excpetion.EntityNotExistException;
 import com.example.couponsproject.error.excpetion.UpdateEntityException;
 import com.example.couponsproject.error.excpetion.UserValidationException;
@@ -11,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.time.LocalDate;
 
 
 @EnableScheduling

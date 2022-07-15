@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static com.example.couponsproject.util.objectMappingUtil.entityToCouponDto;
 
 @RestController
@@ -63,7 +61,7 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/read-company/{companyId}")
+    @GetMapping("{companyId}")
     public CompanyDto readCompany(@PathVariable final Long companyId) throws EntityNotExistException {
     return companyService.readCompany(companyId);
     }

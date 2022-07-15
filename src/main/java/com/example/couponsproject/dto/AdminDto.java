@@ -11,14 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 
-public class CompanyDto extends UserDto{
+public class AdminDto extends UserDto{
+
     private Long id;
     private String email;
-    private String name;
     private String password;
-    private List<CouponDto> couponDtoList;
     private Role role;
-
-
-
 }

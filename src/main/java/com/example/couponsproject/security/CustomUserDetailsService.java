@@ -1,38 +1,63 @@
 package com.example.couponsproject.security;
 
-import com.example.couponsproject.dto.UserDto;
+import com.example.couponsproject.beans.Admin;
+import com.example.couponsproject.beans.Company;
+import com.example.couponsproject.beans.Customer;
+
+import com.example.couponsproject.repository.AdminRepository;
 import com.example.couponsproject.repository.CompanyRepository;
 import com.example.couponsproject.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import static com.example.couponsproject.util.objectMappingUtil.*;
 
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final CompanyRepository companyRepository;
     private final CustomerRepository customerRepository;
+    private final AdminRepository adminRepository;
 
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-        return userToSpringSecurityUser(Objects.requireNonNull(getUser(email)));
+        return getUser(email);
     }
 
-    private UserDto getUser(final String email) {
+
+
+    private User getUser(final String email) {
         if (companyRepository.existsByEmail(email)){
-             return entityToCompanyDto(companyRepository.findByEmail(email));
+            Company company = companyRepository.findByEmail(email);
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(String.valueOf(company.getRole())));
+            return new User(company.getEmail(),String.valueOf(company.getPassword()),authorities);
         }
         else if (customerRepository.existsByEmail(email)){
-            return entityTOCustomerDto(customerRepository.findByEmail(email));
+            Customer customer = customerRepository.findByEmail(email);
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(String.valueOf(customer.getRole())));
+            return new User(customer.getEmail(),String.valueOf(customer.getPassword()),authorities);
+        }
+        else if (adminRepository.existsByEmail(email)){
+            Admin admin = adminRepository.findByEmail(email);
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(String.valueOf(admin.getRole())));
+            return new User(admin.getEmail(),String.valueOf(admin.getPassword()),authorities);
+
         }
         return null;
     }
+
+
+
 
 
 }

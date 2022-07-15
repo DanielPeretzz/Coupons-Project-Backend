@@ -1,6 +1,5 @@
 package com.example.couponsproject.controller;
 
-import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
@@ -15,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import static com.example.couponsproject.util.objectMappingUtil.entityTOCustomerDto;
 import static com.example.couponsproject.util.objectMappingUtil.entityToCompanyDto;
 
 @RestController

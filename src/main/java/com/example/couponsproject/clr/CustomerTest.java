@@ -1,6 +1,5 @@
 package com.example.couponsproject.clr;
 
-import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.listDto.CouponLIstDto;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Component
 @Slf4j

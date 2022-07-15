@@ -4,10 +4,10 @@ import com.example.couponsproject.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
-@Table(name = "company")
+@Table(name = "admin")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -15,8 +15,7 @@ import java.util.List;
 @ToString
 @Builder
 
-public class Company {
-
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,21 +23,11 @@ public class Company {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "name", unique = true, nullable = false)
-    private String name;
-
     @ToString.Exclude
     @Column(name = "password", nullable = false)
     private Integer password;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @Transient
-    private List<Coupon> couponList;
-
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
-
-
-
 }

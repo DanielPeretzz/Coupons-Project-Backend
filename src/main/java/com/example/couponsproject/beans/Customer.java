@@ -1,5 +1,6 @@
 package com.example.couponsproject.beans;
 
+import com.example.couponsproject.enums.Role;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -42,4 +43,10 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "coupon_Id")
     )
     private List<Coupon> couponList;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
 }

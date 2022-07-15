@@ -4,7 +4,6 @@ import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.listDto.CompanyListDto;
 import com.example.couponsproject.dto.listDto.CustomerListDto;
-import com.example.couponsproject.error.excpetion.ApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Slf4j
@@ -27,14 +25,14 @@ public class AdminTest {
 /*        updateCompanyTest();
         readCompanyTest();
         readAllCompanyTest();
-        deleteCompanyTest();
+        deleteCompanyTest();*/
         createCustomerTest();
-        updateCustomerTest();
+/*        updateCustomerTest();
         readCustomerTest();
         readAllCustomerTest();
         deleteCustomerTest();
         companyCreateTest();
-        createCustomerTest()*/;
+        createCustomerTest();*/
     }
 
     public boolean companyCreateTest() {

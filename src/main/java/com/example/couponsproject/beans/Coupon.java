@@ -3,17 +3,12 @@ package com.example.couponsproject.beans;
 import com.example.couponsproject.enums.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import lombok.experimental.FieldNameConstants;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.web.JsonPath;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 
 @Entity

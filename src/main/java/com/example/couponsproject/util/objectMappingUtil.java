@@ -1,15 +1,15 @@
 package com.example.couponsproject.util;
 
+import com.example.couponsproject.beans.Admin;
 import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.beans.Coupon;
 import com.example.couponsproject.beans.Customer;
+import com.example.couponsproject.dto.AdminDto;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
-
-import com.example.couponsproject.dto.UserDto;
-import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,46 +21,56 @@ public class objectMappingUtil {
 
 //------------------------------------------DTO-TO-Entity---------------------------------------------------------------
 
-    public static Company companyDtoToEntity(final CompanyDto companyDto){
+    public static Admin entityToAdminDto(AdminDto adminDto) {
+        return Admin.builder()
+                .email(adminDto.getEmail())
+                .password(adminDto.getPassword().hashCode())
+                .role(adminDto.getRole()).build();
+    }
+
+    public static Company companyDtoToEntity(final CompanyDto companyDto) {
         return Company.builder()
                 .name(companyDto.getName())
                 .email(companyDto.getEmail())
                 .password(companyDto.getPassword().hashCode())
+                .role(companyDto.getRole())
                 .build();
     }
 
-    public static Company companyDtoToEntityUpdate(final CompanyDto companyDto){
+    public static Company companyDtoToEntityUpdate(final CompanyDto companyDto) {
         return Company.builder()
                 .id(companyDto.getId())
                 .name(companyDto.getName())
                 .email(companyDto.getEmail())
                 .password(companyDto.getPassword().hashCode())
+                .role(companyDto.getRole())
                 .build();
     }
 
-    public static Customer customerDtoToEntity(final CustomerDto customerDto){
+    public static Customer customerDtoToEntity(final CustomerDto customerDto) {
         return Customer.builder()
                 .email(customerDto.getEmail())
                 .firstName(customerDto.getFirstName())
                 .lastName(customerDto.getLastName())
                 .email(customerDto.getEmail())
                 .password(customerDto.getPassword().hashCode())
+                .role(customerDto.getRole())
                 .build();
     }
 
-    public static Customer customerDtoToEntityUpdate(final CustomerDto customerDto){
+    public static Customer customerDtoToEntityUpdate(final CustomerDto customerDto) {
         return Customer.builder()
                 .id(customerDto.getId())
                 .firstName(customerDto.getFirstName())
                 .lastName(customerDto.getLastName())
                 .email(customerDto.getEmail())
                 .password(customerDto.getPassword().hashCode())
+                .role(customerDto.getRole())
                 .build();
     }
 
 
-
-    public static Coupon couponDtoToEntity(final CouponDto couponDto){
+    public static Coupon couponDtoToEntity(final CouponDto couponDto) {
         return Coupon.builder()
                 .category(couponDto.getCategory())
                 .company(Company.builder().id(couponDto.getCompanyId()).build())
@@ -74,7 +84,7 @@ public class objectMappingUtil {
                 .build();
     }
 
-    public static Coupon couponDtoToEntityUpdate(final CouponDto couponDto){
+    public static Coupon couponDtoToEntityUpdate(final CouponDto couponDto) {
         return Coupon.builder()
                 .id(couponDto.getId())
                 .category(couponDto.getCategory())
@@ -92,7 +102,7 @@ public class objectMappingUtil {
 
 //------------------------------------------Entity-TO-Dto---------------------------------------------------------------
 
-    public static List<CouponDto> entityToCouponDto(List<Coupon> couponList){
+    public static List<CouponDto> entityToCouponDto(List<Coupon> couponList) {
         List<CouponDto> couponDtoList = new ArrayList<>();
         for (Coupon coupon : couponList) {
             couponDtoList.add(entityToCouponDto(coupon));
@@ -100,7 +110,8 @@ public class objectMappingUtil {
 
         return couponDtoList;
     }
-    public static CouponDto entityToCouponDto(Coupon coupon){
+
+    public static CouponDto entityToCouponDto(Coupon coupon) {
         return CouponDto.builder()
                 .id(coupon.getId())
                 .category(coupon.getCategory())
@@ -116,36 +127,27 @@ public class objectMappingUtil {
     }
 
 
-    public static CustomerDto entityTOCustomerDto(Customer customer){
+    public static CustomerDto entityTOCustomerDto(Customer customer) {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .email(customer.getEmail())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .password(String.valueOf(customer.getPassword()))
+                .role(customer.getRole())
                 .couponDtoList(entityToCouponDto(customer.getCouponList()))
                 .build();
     }
 
-    public static CompanyDto entityToCompanyDto(Company company){
+    public static CompanyDto entityToCompanyDto(Company company) {
         return CompanyDto.builder()
                 .id(company.getId())
                 .name(company.getName())
                 .email(company.getEmail())
                 .password(String.valueOf(company.getPassword()))
+                .role(company.getRole())
                 .build();
     }
 
-
-
-
-
-    public static UserDetails userToSpringSecurityUser(final UserDto userDto) {
-        return new org.springframework.security.core.userdetails.User(
-                userDto.getEmail(),
-                String.valueOf(userDto.getPassword()),
-                new ArrayList<>()
-        );
-    }
 
 }

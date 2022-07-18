@@ -1,6 +1,7 @@
 package com.example.couponsproject.dto.listDto;
 
 import com.example.couponsproject.beans.Customer;
+import com.example.couponsproject.dto.CustomerDto;
 import lombok.*;
 
 import java.util.List;
@@ -11,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CustomerListDto {
-    private List<Customer> customerDtoList;
+    private List<CustomerDto> customerDtoList;
 }

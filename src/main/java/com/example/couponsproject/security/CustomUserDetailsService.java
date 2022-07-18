@@ -1,3 +1,4 @@
+
 package com.example.couponsproject.security;
 
 import com.example.couponsproject.beans.Admin;
@@ -40,6 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(String.valueOf(company.getRole())));
             return new User(company.getEmail(),String.valueOf(company.getPassword()),authorities);
         }
+
         else if (customerRepository.existsByEmail(email)){
             Customer customer = customerRepository.findByEmail(email);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon,Long> {
     List<Coupon> findByCompanyId(Long companyId);
-    List<Coupon> findByCategory(Category category);
     boolean existsByCategory(Category category);
 
 }

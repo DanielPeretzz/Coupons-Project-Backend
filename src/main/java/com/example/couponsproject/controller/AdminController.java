@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.couponsproject.util.objectMappingUtil.entityToCompanyDto;
 
 @RestController
@@ -50,7 +52,7 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/company")
-    public CompanyListDto readAllCompany() {
+    public CompanyListDto readAllCompany() throws EntityNotExistException {
         return new CompanyListDto(adminService.readAllCompany());
     }
 
@@ -75,7 +77,8 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/customer")
-    public CustomerListDto getAllCustomer(){
+    public CustomerListDto getAllCustomer() throws EntityNotExistException {
+
        return new CustomerListDto(adminService.readAllCustomer());
     }
 

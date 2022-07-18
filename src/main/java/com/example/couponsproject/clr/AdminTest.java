@@ -4,6 +4,7 @@ import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.listDto.CompanyListDto;
 import com.example.couponsproject.dto.listDto.CustomerListDto;
+import com.example.couponsproject.enums.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,8 @@ public class AdminTest {
             final CompanyDto companyDto = CompanyDto.builder()
                     .name("companyTest")
                     .email("companyTest@gmail.com")
-                    .password("test").build();
+                    .password("test")
+                    .role(Role.COMPANY).build();
 
             final ResponseEntity<CompanyDto> responseEntity = restTemplate.postForEntity
                     ("http://localhost:8080/admin/company", companyDto, CompanyDto.class);

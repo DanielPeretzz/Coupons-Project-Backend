@@ -21,7 +21,7 @@ public class objectMappingUtil {
 
 //------------------------------------------DTO-TO-Entity---------------------------------------------------------------
 
-    public static Admin entityToAdminDto(AdminDto adminDto) {
+    public static Admin adminDtoEntity(AdminDto adminDto) {
         return Admin.builder()
                 .email(adminDto.getEmail())
                 .password(adminDto.getPassword().hashCode())
@@ -139,6 +139,7 @@ public class objectMappingUtil {
                 .build();
     }
 
+
     public static CompanyDto entityToCompanyDto(Company company) {
         return CompanyDto.builder()
                 .id(company.getId())
@@ -149,5 +150,26 @@ public class objectMappingUtil {
                 .build();
     }
 
+
+    public static List<CompanyDto> entityToListCompanyDto(List<Company> companyList){
+        List<CompanyDto> companyDtoList = new ArrayList<>();
+
+        for (Company company: companyList) {
+            companyDtoList.add(entityToCompanyDto(company));
+        }
+
+        return companyDtoList;
+    }
+
+
+    public static List<CustomerDto> entityToListCustomerDto(List<Customer> customerList){
+
+        List<CustomerDto> customerDtoList = new ArrayList<>();
+
+        for (Customer customer: customerList) {
+            customerDtoList.add(entityTOCustomerDto(customer));
+        }
+        return customerDtoList;
+    }
 
 }

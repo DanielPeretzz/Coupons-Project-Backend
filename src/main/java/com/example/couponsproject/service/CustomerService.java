@@ -45,6 +45,7 @@ public class CustomerService {
         if (!customerRepository.existsById(customerId)) {
             throw new EntityNotExistException(EntityType.CUSTOMER);
         }
+
         Customer customer = optionalCustomer(customerRepository.findById(customerId));
         Coupon coupon = optionalCoupon(couponRepository.findById(couponId));
 

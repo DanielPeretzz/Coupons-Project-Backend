@@ -29,7 +29,7 @@ public class CustomerController {
         return new CouponLIstDto(customerService.getCoupon(customerId));
     }
 
-    @GetMapping("/category/{customerId}/")
+    @GetMapping("/category/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto getCouponByCategory(@PathVariable(name = "customerId") final Long customerId,
                                                @RequestParam(name = "category") Category category)
@@ -38,7 +38,7 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/price/{customerId}/")
+    @GetMapping("/price/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
     public CouponLIstDto getCouponByPrice(@PathVariable(name = "customerId") final Long customerId,
                                           @RequestParam(name = "price") final double price)

@@ -21,7 +21,7 @@ public class CompanyController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public CouponDto createCoupon(@RequestBody final CouponDto couponDto)
-            throws EntityExistException, CouponExpirationDateArrived {
+            throws EntityExistException, CouponExpirationDateArrived, EntityNotExistException {
         return entityToCouponDto(companyService.createCoupon(couponDto));
     }
 
@@ -61,7 +61,7 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("{companyId}")
+    @GetMapping("/{companyId}")
     public CompanyDto readCompany(@PathVariable final Long companyId) throws EntityNotExistException {
     return companyService.readCompany(companyId);
     }

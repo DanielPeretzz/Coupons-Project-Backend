@@ -1,1 +1,0 @@
-Finish the clr testing after change to Restfull API

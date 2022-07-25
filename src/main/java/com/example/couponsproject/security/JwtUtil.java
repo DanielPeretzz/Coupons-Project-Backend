@@ -1,11 +1,13 @@
 
 package com.example.couponsproject.security;
 
+import com.example.couponsproject.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
@@ -16,7 +18,7 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtUtil {
     private static final int ONE_HOUR_IN_MILLIS = 1000 * 60 * 60;
-    public static final String SECRET_KEY = "secret";
+    public static final String SECRET_KEY = "couponSystemKey";
 
     public static String extractEmail(final String token) {
         return extractClaim(token, Claims::getSubject);
@@ -35,13 +37,14 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    public static String generateToken(final String email) {
+    public static String generateToken(final UserDto userDto) {
         final Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, email);
+        claims.put("user",userDto);
+        return createToken(claims,userDto.getEmail() );
     }
 
-    private static String createToken(final Map<String, Object> claims, final String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+    private static String createToken(final Map<String, Object> claims,final String email) {
+        return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ONE_HOUR_IN_MILLIS))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }

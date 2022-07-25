@@ -1,9 +1,7 @@
-
 package com.example.couponsproject.service;
 
 import com.example.couponsproject.beans.Admin;
 import com.example.couponsproject.beans.Company;
-import com.example.couponsproject.beans.Coupon;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.AdminDto;
 import com.example.couponsproject.dto.CompanyDto;
@@ -80,12 +78,23 @@ public class AdminService {
 
         Company getCompany = optionalCompany(companyRepository.findById(companyDto.getId()));
 
-        assert getCompany != null;
-        if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
-            throw new UpdateEntityException(companyDto.getName());
+        companyDto.setRole(Role.COMPANY);
+
+        if (companyDto.getName() != null) {
+            assert getCompany != null;
+            if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
+                throw new UpdateEntityException(companyDto.getName());
+            }
         }
-        log.info(companyDto.getName() + " has been update successfully !");
-        companyRepository.save(objectMappingUtil.companyDtoToEntityUpdate(companyDto));
+        assert getCompany != null;
+        companyDto.setName(getCompany.getName());
+
+        if (companyDto.getPassword() == null) {
+            companyDto.setPassword(String.valueOf(getCompany.getPassword()));
+            companyRepository.save(companyDtoToEntityUpdateWithoutPass(companyDto));
+        } else {
+            companyRepository.save(companyDtoToEntityUpdate(companyDto));
+        }
     }
 
     //-------------------------------------------read-Company-----------------------------------------------------------
@@ -102,7 +111,7 @@ public class AdminService {
 
         companyDto.setCouponDtoList(couponDtoList);
 
-        return  companyDto;
+        return companyDto;
     }
 
     //-------------------------------------------delete-company---------------------------------------------------------
@@ -118,16 +127,16 @@ public class AdminService {
     //--------------------------------------------read-All-Company------------------------------------------------------
     public List<CompanyDto> readAllCompany() throws EntityNotExistException {
 
-         List<CompanyDto> companyList = objectMappingUtil.entityToListCompanyDto(companyRepository.findAll());
+        List<CompanyDto> companyList = objectMappingUtil.entityToListCompanyDto(companyRepository.findAll());
 
-       for (CompanyDto company: companyList) {
+        for (CompanyDto company : companyList) {
             List<CouponDto> couponList = objectMappingUtil
                     .entityToCouponDto(couponRepository.findByCompanyId(company.getId()));
             company.setCouponDtoList(couponList);
         }
 
-        if (companyList.isEmpty()){
-            throw new EntityNotExistException(EntityType.CUSTOMER);
+        if (companyList.isEmpty()) {
+            throw new EntityNotExistException(EntityType.COMPANY);
         }
 
         return companyList;
@@ -160,10 +169,24 @@ public class AdminService {
         if (customerDto.getId() == null) {
             throw new UserValidationException();
         }
-
-        customerRepository.save(objectMappingUtil.customerDtoToEntityUpdate(customerDto));
-
-        log.info(customerDto.getEmail() + " updated successfully");
+        Customer customer = optionalCustomer(customerRepository.findById(customerDto.getId()));
+        customerDto.setRole(Role.COMPANY);
+        if (customerDto.getFirstName() == null) {
+            assert customer != null;
+            customerDto.setFirstName(customer.getFirstName());
+        }
+        if (customerDto.getLastName() == null) {
+            assert customer != null;
+            customerDto.setLastName(customer.getLastName());
+        }
+        if (customerDto.getPassword() == null) {
+            assert customer != null;
+            customerDto.setPassword(String.valueOf(customer.getPassword()));
+            customerRepository.save(objectMappingUtil.customerDtoToEntityUpdateWithoutPass(customerDto));
+        } else {
+            log.info(customerDto.getEmail() + " updated successfully");
+            customerRepository.save(objectMappingUtil.customerDtoToEntityUpdate(customerDto));
+        }
     }
 
     //--------------------------------------------delete-Customer-------------------------------------------------------
@@ -181,13 +204,13 @@ public class AdminService {
 
     public List<CustomerDto> readAllCustomer() throws EntityNotExistException {
 
-      List<CustomerDto> customerDtoList = entityToListCustomerDto(customerRepository.findAll());
+        List<CustomerDto> customerDtoList = entityToListCustomerDto(customerRepository.findAll());
 
-      if (customerDtoList.isEmpty()){
-          throw new EntityNotExistException(EntityType.CUSTOMER);
-      }
+        if (customerDtoList.isEmpty()) {
+            throw new EntityNotExistException(EntityType.CUSTOMER);
+        }
 
-      return customerDtoList;
+        return customerDtoList;
     }
 
     //--------------------------------------------read-Customer---------------------------------------------------------
@@ -203,7 +226,7 @@ public class AdminService {
     //---------------------------------------------create-Admin---------------------------------------------------------
 
     public Admin createAdmin(final AdminDto adminDto) throws EntityExistException {
-        if (adminRepository.existsByEmail(adminDto.getEmail())){
+        if (adminRepository.existsByEmail(adminDto.getEmail())) {
             throw new EntityExistException(EntityType.ADMIN);
         }
         adminDto.setRole(Role.ADMIN);

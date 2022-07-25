@@ -3,15 +3,13 @@ package com.example.couponsproject.dto;
 import com.example.couponsproject.enums.Role;
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @ToString(exclude = "password")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-public class AdminDto extends UserDto{
+public class AdminDto extends UserDto {
 
     private Long id;
     private String email;

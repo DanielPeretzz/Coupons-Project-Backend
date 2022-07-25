@@ -47,6 +47,18 @@ public class objectMappingUtil {
                 .build();
     }
 
+
+    public static Company companyDtoToEntityUpdateWithoutPass(final CompanyDto companyDto) {
+        return Company.builder()
+                .id(companyDto.getId())
+                .name(companyDto.getName())
+                .email(companyDto.getEmail())
+                .password(Integer.valueOf(companyDto.getPassword()))
+                .role(companyDto.getRole())
+                .build();
+    }
+
+
     public static Customer customerDtoToEntity(final CustomerDto customerDto) {
         return Customer.builder()
                 .email(customerDto.getEmail())
@@ -65,6 +77,17 @@ public class objectMappingUtil {
                 .lastName(customerDto.getLastName())
                 .email(customerDto.getEmail())
                 .password(customerDto.getPassword().hashCode())
+                .role(customerDto.getRole())
+                .build();
+    }
+
+    public static Customer customerDtoToEntityUpdateWithoutPass(final CustomerDto customerDto) {
+        return Customer.builder()
+                .id(customerDto.getId())
+                .firstName(customerDto.getFirstName())
+                .lastName(customerDto.getLastName())
+                .email(customerDto.getEmail())
+                .password(Integer.valueOf(customerDto.getPassword()))
                 .role(customerDto.getRole())
                 .build();
     }

@@ -23,7 +23,7 @@ public class CouponDto {
     private LocalDate startDate;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
-    private int amount;
-    private double price;
+    private Integer amount;
+    private Double price;
     private String image;
 }

@@ -79,13 +79,13 @@ public class AdminController {
     @GetMapping("/customer")
     public CustomerListDto getAllCustomer() throws EntityNotExistException {
 
-       return new CustomerListDto(adminService.readAllCustomer());
+        return new CustomerListDto(adminService.readAllCustomer());
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/customer/{customerId}")
     public CustomerDto getCustomer(@PathVariable final Long customerId) throws EntityNotExistException {
-       return adminService.readCustomer(customerId);
+        return adminService.readCustomer(customerId);
     }
 
 

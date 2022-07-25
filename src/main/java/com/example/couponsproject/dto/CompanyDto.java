@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@ToString
+@ToString(exclude = "password")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-public class CompanyDto extends UserDto{
+public class CompanyDto extends UserDto {
     private Long id;
     private String email;
     private String name;

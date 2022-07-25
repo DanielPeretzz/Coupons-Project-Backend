@@ -32,42 +32,86 @@ public class CompanyService {
 //-----------------------------------------------Company-Service--------------------------------------------------------
 
     //-------------------------------------------Create-Coupon----------------------------------------------------------
-    public Coupon createCoupon(CouponDto couponDto) throws EntityExistException, CouponExpirationDateArrived {
-        List<Coupon> couponList = couponRepository.findAll();
+    public Coupon createCoupon(CouponDto couponDto) throws EntityExistException, CouponExpirationDateArrived, EntityNotExistException {
 
-        if (couponDto.getEndDate().isBefore(LocalDate.now())){
+
+        if (!companyRepository.existsById(couponDto.getCompanyId())) {
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+
+        if (couponDto.getEndDate().isBefore(LocalDate.now())) {
             throw new CouponExpirationDateArrived();
         }
 
-        for (Coupon coupon : couponList) {
-            if (Objects.equals(coupon.getTitle(), couponDto.getTitle()) &&
-                    Objects.equals(coupon.getCompany().getId(), couponDto.getCompanyId())){
-                throw new EntityExistException(EntityType.COUPON);
+        if (couponRepository.existsByTitle(couponDto.getTitle())) {
+            List<Coupon> couponList = couponRepository.findByTitle(couponDto.getTitle());
+            for (Coupon coupon : couponList) {
+                if (Objects.equals(coupon.getTitle(), couponDto.getTitle()) &&
+                        Objects.equals(coupon.getCompany().getId(), couponDto.getCompanyId())) {
+                    throw new EntityExistException(EntityType.COUPON);
+                }
             }
         }
+
         log.info("New Coupon created !");
         return couponRepository.save(couponDtoToEntity(couponDto));
     }
 
     //-------------------------------------------Update-Coupon----------------------------------------------------------
 
-    public void updateCoupon(CouponDto couponDto) throws EntityNotExistException, UserValidationException, UpdateEntityException {
-        if (couponDto.getId() == null){
+    public void updateCoupon(CouponDto couponDto) throws EntityNotExistException, UserValidationException {
+        if (couponDto.getId() == null) {
             throw new UserValidationException();
         }
-        if (!couponRepository.existsById(couponDto.getId())){
-                throw new EntityNotExistException(EntityType.COUPON) ;
+        if (!couponRepository.existsById(couponDto.getId())) {
+            throw new EntityNotExistException(EntityType.COUPON);
         }
-        if (!companyRepository.existsById(couponDto.getCompanyId())){
-            throw new EntityNotExistException(EntityType.COMPANY);
-        }
-
         Coupon coupon = optionalCoupon(couponRepository.findById(couponDto.getId()));
 
-        assert coupon != null;
-        if (!Objects.equals(coupon.getCompany().getId(), couponDto.getCompanyId())){
-            throw new UpdateEntityException(String.valueOf(couponDto.getCompanyId()));
+        if (couponDto.getCompanyId() == null) {
+            assert coupon != null;
+            couponDto.setCompanyId(coupon.getCompany().getId());
         }
+
+        if (couponDto.getTitle() == null) {
+            assert coupon != null;
+            couponDto.setTitle(coupon.getTitle());
+        }
+
+        if (couponDto.getStartDate() == null) {
+            assert coupon != null;
+            couponDto.setStartDate(coupon.getStartDate());
+        }
+
+        if (couponDto.getEndDate() == null) {
+            assert coupon != null;
+            couponDto.setEndDate(coupon.getEndDate());
+        }
+
+        if (couponDto.getCategory() == null) {
+            assert coupon != null;
+            couponDto.setCategory(coupon.getCategory());
+        }
+        if (couponDto.getDescription() == null){
+            assert coupon != null;
+            couponDto.setDescription(coupon.getDescription());
+        }
+
+        if (couponDto.getAmount() == null) {
+            assert coupon != null;
+            couponDto.setAmount(coupon.getAmount());
+        }
+
+        if (couponDto.getPrice() == null) {
+            assert coupon != null;
+            couponDto.setPrice(coupon.getPrice());
+        }
+
+        assert coupon != null;
+        if (couponDto.getImage() == null) {
+            couponDto.setImage(coupon.getImage());
+        }
+
         log.info("Coupon Update Successfully");
         couponRepository.save(couponDtoToEntityUpdate(couponDto));
 
@@ -77,7 +121,7 @@ public class CompanyService {
 
     public void deleteCoupon(Long couponId) throws EntityNotExistException {
 
-        if (!couponRepository.existsById(couponId)){
+        if (!couponRepository.existsById(couponId)) {
             throw new EntityNotExistException(EntityType.COUPON);
         }
 
@@ -90,7 +134,7 @@ public class CompanyService {
 
     public List<CouponDto> readCompanyCoupons(Long companyId) throws EntityNotExistException {
 
-        if (!companyRepository.existsById(companyId)){
+        if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
 
@@ -99,24 +143,24 @@ public class CompanyService {
 
     //--------------------------------------------read-Coupon-by-Category-----------------------------------------------
 
-    public List<CouponDto> readCouponByCategory(Long companyId , Category category) throws EntityNotExistException {
-        if (!companyRepository.existsById(companyId)){
+    public List<CouponDto> readCouponByCategory(Long companyId, Category category) throws EntityNotExistException {
+        if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
-        if (!couponRepository.existsByCategory(category)){ //fix the method repository
+        if (!couponRepository.existsByCategory(category)) { //fix the method repository
             throw new EntityNotExistException(EntityType.COUPON);
         }
-         return entityToCouponDto(couponRepository.findByCompanyId(companyId)
-                 .stream()
-                 .filter(coupon -> coupon.getCategory() == category)
-                 .collect(Collectors.toList()));
+        return entityToCouponDto(couponRepository.findByCompanyId(companyId)
+                .stream()
+                .filter(coupon -> coupon.getCategory() == category)
+                .collect(Collectors.toList()));
 
     }
 
     //--------------------------------------------read-Coupon-by-max-price----------------------------------------------
 
     public List<CouponDto> readCouponUtilPrice(Long companyId, double price) throws EntityNotExistException {
-        if (!companyRepository.existsById(companyId)){
+        if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
         return entityToCouponDto(couponRepository.findByCompanyId(companyId)
@@ -128,7 +172,7 @@ public class CompanyService {
     //--------------------------------------------read-company-by-id----------------------------------------------------
 
     public CompanyDto readCompany(Long companyId) throws EntityNotExistException {
-        if (!companyRepository.existsById(companyId)){
+        if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
 

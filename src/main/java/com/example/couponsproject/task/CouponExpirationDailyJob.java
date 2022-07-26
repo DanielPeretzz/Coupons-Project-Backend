@@ -20,11 +20,9 @@ public class CouponExpirationDailyJob {
     @Scheduled(fixedDelay = SLEEP_TIME)
     public void dailyJob() {
         log.info("daily job scan for exp coupon date");
-        for (Coupon coupon : couponRepository.findAll()) {
-            if (coupon.getEndDate().isBefore(LocalDate.now())) {
+        for (Coupon coupon : couponRepository.findByEndDate(LocalDate.now())) {
                 couponRepository.deleteById(coupon.getId());
                 log.info(coupon.getId() + " has been deleted , Reason : coupon exp date !");
-            }
         }
     }
 }

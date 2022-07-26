@@ -34,7 +34,6 @@ public class CompanyService {
     //-------------------------------------------Create-Coupon----------------------------------------------------------
     public Coupon createCoupon(CouponDto couponDto) throws EntityExistException, CouponExpirationDateArrived, EntityNotExistException {
 
-
         if (!companyRepository.existsById(couponDto.getCompanyId())) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }

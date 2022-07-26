@@ -5,8 +5,7 @@ import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
 import com.example.couponsproject.dto.JwtDto;
 import com.example.couponsproject.dto.UserDto;
-import com.example.couponsproject.error.excpetion.EntityExistException;
-import com.example.couponsproject.error.excpetion.UserValidationException;
+import com.example.couponsproject.error.excpetion.ApplicationException;
 import com.example.couponsproject.service.AdminService;
 import com.example.couponsproject.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +22,13 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/login")
-    public JwtDto authenticate(@RequestBody final UserDto user) {
+    public JwtDto authenticate(@RequestBody final UserDto user) throws ApplicationException {
         return authService.authenticate(user);
     }
 
-
  @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register/company")
-    public JwtDto createCompany(@RequestBody final CompanyDto companyDto) throws UserValidationException, EntityExistException {
+    public JwtDto createCompany(@RequestBody final CompanyDto companyDto) throws ApplicationException {
          adminService.createCompany(companyDto);
      return authService.authenticate(companyDto);
     }
@@ -38,7 +36,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register/customer")
-    public JwtDto createCustomer(@RequestBody final CustomerDto customerDto) throws UserValidationException, EntityExistException {
+    public JwtDto createCustomer(@RequestBody final CustomerDto customerDto) throws ApplicationException {
         adminService.createCustomer(customerDto);
         return authService.authenticate(customerDto);
     }

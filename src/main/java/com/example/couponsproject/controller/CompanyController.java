@@ -45,7 +45,7 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/read-by-category/{companyId}/")
+    @GetMapping("/read-by-category/{companyId}")
     public CouponLIstDto readByCategory(@PathVariable(name = "companyId") final Long companyId ,
                                           @RequestParam() final Category category)
             throws EntityNotExistException {
@@ -53,7 +53,7 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/read-by-price/{companyId}/")
+    @GetMapping("/read-by-price/{companyId}")
     public CouponLIstDto readCouponUtilPrice(@PathVariable(name = "companyId") Long companyId,
                                               @RequestParam double price)
                                                 throws EntityNotExistException {

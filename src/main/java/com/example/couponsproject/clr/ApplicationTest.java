@@ -26,15 +26,19 @@ public class ApplicationTest implements CommandLineRunner {
 
 
     public void TestAll() throws ApplicationException {
-            boolean adminTests = adminTest.adminTest();
-            boolean companyTests = companyTest.companyTest();
+        boolean adminTests = false;
+        boolean companyTests = false;
+        try {
+            adminTests = adminTest.adminTest();
+            companyTests = companyTest.companyTest();
             //boolean CustomerTests = customerTest.customerTest();
 
-            System.err.println("Admin test Status : " + adminTests);
-            System.err.println("Company test Status :" + companyTests);
-            //customerTest.customerTest();
-
-            if (adminTests && companyTests ) {
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+            if (adminTests && companyTests) {
+                System.err.println("Admin Test Status : " + adminTests);
+                System.err.println("Company Test Status : " + companyTests);
                 System.err.println("Application Test Successfully ! Start Production Mode!");
             }else {
                 System.err.println("Application Test Failed ! ");

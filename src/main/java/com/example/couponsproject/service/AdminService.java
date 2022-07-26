@@ -44,6 +44,7 @@ public class AdminService {
 //-------------------------------------------------Admin-Service--------------------------------------------------------
 
     //---------------------------------------------Create-Company-------------------------------------------------------
+
     public Company createCompany(final CompanyDto companyDto) throws EntityExistException, UserValidationException {
         if (!InputUserValidation.isPasswordValid(companyDto.getPassword())) {
             throw new UserValidationException();

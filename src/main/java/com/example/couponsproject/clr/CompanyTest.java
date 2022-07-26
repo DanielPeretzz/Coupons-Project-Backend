@@ -18,7 +18,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeader;
 import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeaderWithBody;
 
 @Slf4j
@@ -30,25 +32,26 @@ public class CompanyTest {
     private final AuthController authController;
 
 
-    public boolean companyTest() {
+    public boolean companyTest() throws ApplicationException {
         try {
             System.out.println("Company Login Test : " + companyLoginTest());
             System.out.println("Create Company Status : " + createCouponTest());
             System.out.println("Update Coupon Status : " + updateCouponTest());
-      /*  readAllCouponsTest();
-        readByCategoryTest();
-        readCouponUtilPriceTest();
-        readCompanyTest();
-        deleteCouponTest();
-        createCouponTest();*/
-        }catch (Exception e){
-            return false;
+            System.out.println("Read All Coupon status : " + readAllCouponsTest());
+            System.out.println("Read all coupons by category Status : " + readByCategoryTest());
+            System.out.println("Read all coupons by price Status : " + readCouponUtilPriceTest());
+            System.out.println("Read Company Test Status : " + readCompanyTest());
+            System.out.println("Delete coupon Test Status : " + deleteCouponTest());
+            createCouponTest();
+        } catch (Exception e) {
+            System.err.println("Company test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
         }
         return true;
     }
 
 
-    public boolean companyLoginTest() {
+    public boolean companyLoginTest() throws ApplicationException {
 
         try {
 
@@ -57,14 +60,14 @@ public class CompanyTest {
                     .password("test").build());
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
+            System.err.println("Company Login Test : " + false);
+            throw new ApplicationException(e.getMessage());
         }
         return jwtDto != null;
     }
 
 
-    public boolean createCouponTest() {
+    public boolean createCouponTest() throws ApplicationException {
         final CouponDto couponDtoRes;
 
         try {
@@ -87,14 +90,14 @@ public class CompanyTest {
             couponDtoRes = couponDtoResponseEntity.getBody();
 
         } catch (Exception e) {
-            System.err.println("err msg:  " + e.getMessage());
-            return false;
+            System.err.println("Create company Test : " + false);
+            throw new ApplicationException(e.getMessage());
         }
         log.info("create coupon test successfully ! : \n " + couponDtoRes);
         return true;
     }
 
-    public boolean updateCouponTest() {
+    public boolean updateCouponTest() throws ApplicationException {
         try {
 
             final CouponDto couponDto = CouponDto.builder()
@@ -103,56 +106,94 @@ public class CompanyTest {
                     .build();
 
             restTemplate
-                    .exchange("http://localhost:8080/company",HttpMethod.PUT,
-                            createHttpHeaderWithBody(jwtDto,couponDto),Void.class);
+                    .exchange("http://localhost:8080/company", HttpMethod.PUT,
+                            createHttpHeaderWithBody(jwtDto, couponDto), Void.class);
 
-        } catch (Exception e){
-            System.err.println("err msg:  " + e.getMessage());
-            return false;
+        } catch (Exception e) {
+            System.err.println("Update Coupon Test : " + false);
+            throw new ApplicationException(e.getMessage());
         }
         log.info("coupon update test successfully ! :  \n ");
         return true;
     }
 
-    public void deleteCouponTest() {
-        restTemplate.delete("http://localhost:8080/company/delete/1");
-
+    public boolean deleteCouponTest() throws ApplicationException {
+        try {
+            restTemplate.exchange("http://localhost:8080/company/1",HttpMethod.DELETE
+                    , createHttpHeader(jwtDto),Void.class);
+        } catch (Exception e) {
+            System.out.println("Delete Coupon Test : " + false);
+            throw new ApplicationException(e.getMessage());
+        }
         log.info("delete coupon test successfully ! ");
+        return true;
     }
 
-    public void readAllCouponsTest() {
-        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-coupon/2", CouponLIstDto.class);
+    public boolean readAllCouponsTest() throws ApplicationException {
+        final CouponLIstDto couponList;
+        try {
+            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                    .exchange("http://localhost:8080/company/read-coupon/2",HttpMethod.GET,
+                            createHttpHeader(jwtDto), CouponLIstDto.class);
 
-        final CouponLIstDto couponList = responseEntity.getBody();
-
+            couponList = responseEntity.getBody();
+        } catch (Exception e) {
+            System.err.println("Read all Coupons test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
+        }
         log.info("read all coupon test Successfully! : \n " + couponList);
+        return true;
     }
 
-    public void readByCategoryTest() {
+    public boolean readByCategoryTest() throws ApplicationException {
+        final CouponLIstDto couponList;
+        try {
 
-        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-by-category/2/VACATION", CouponLIstDto.class);
+            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                    .exchange("http://localhost:8080/company/read-by-category/2?category=VACATION",HttpMethod.GET,
+                            createHttpHeader(jwtDto), CouponLIstDto.class);
 
-        CouponLIstDto couponDtoList = responseEntity.getBody();
-        log.info("read coupon by category test Successfully ! : \n " + couponDtoList);
+            couponList = responseEntity.getBody();
+
+        } catch (Exception e) {
+            System.err.println("Read all Coupons by category test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
+        }
+        log.info("read coupon by category test Successfully ! : \n " + couponList);
+        return true;
+
     }
 
-    public void readCouponUtilPriceTest() {
-        final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-by-price/2/10", CouponLIstDto.class);
+    public boolean readCouponUtilPriceTest() throws ApplicationException {
+        final CouponLIstDto couponList;
+        try {
+            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+                    .exchange("http://localhost:8080/company/read-by-price/2?price=10",
+                            HttpMethod.GET,createHttpHeader(jwtDto), CouponLIstDto.class);
 
-        final CouponLIstDto couponList = responseEntity.getBody();
+            couponList = responseEntity.getBody();
 
+        } catch (Exception e) {
+            System.err.println("Read all Coupons by price test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
+        }
         log.info("read coupon by price Test Successfully! : \n " + couponList);
+        return true;
     }
 
-    public void readCompanyTest() {
-        final ResponseEntity<CompanyDto> responseEntity = restTemplate
-                .getForEntity("http://localhost:8080/company/read-company/2", CompanyDto.class);
+    public boolean readCompanyTest() throws ApplicationException {
+        final CompanyDto companyDto;
+        try {
+            final ResponseEntity<CompanyDto> responseEntity = restTemplate
+                    .exchange("http://localhost:8080/company/2",HttpMethod.GET,
+                            createHttpHeader(jwtDto), CompanyDto.class);
 
-        final CompanyDto companyDto = responseEntity.getBody();
-
+            companyDto = responseEntity.getBody();
+        }catch (Exception e){
+            System.err.println("Read Company test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
+        }
         log.info("read company test Successfully ! :  \n" + companyDto);
+        return true;
     }
 }

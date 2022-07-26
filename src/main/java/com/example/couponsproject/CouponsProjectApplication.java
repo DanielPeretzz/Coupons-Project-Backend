@@ -15,5 +15,7 @@ public class CouponsProjectApplication {
         ApplicationContext context = SpringApplication.run(CouponsProjectApplication.class, args);
 
 
+
+
     }
 }

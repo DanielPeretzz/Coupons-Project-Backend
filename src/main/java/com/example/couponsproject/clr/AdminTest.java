@@ -6,6 +6,7 @@ import com.example.couponsproject.dto.*;
 import com.example.couponsproject.dto.listDto.CompanyListDto;
 import com.example.couponsproject.dto.listDto.CustomerListDto;
 import com.example.couponsproject.enums.Role;
+import com.example.couponsproject.error.excpetion.ApplicationException;
 import com.example.couponsproject.service.AdminService;
 import com.example.couponsproject.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +35,13 @@ public class AdminTest {
     private final AuthController authController;
 
 
-    public boolean adminTest() {
+    public boolean adminTest() throws ApplicationException {
+
         try {
             System.err.println("Admin login Test status : " + adminLoginTest());
             System.err.println("Create company Test status : " + companyCreateTest());
-            System.err.println("Update company Test status : " + updateCompanyTest());
             System.err.println("Read company Test Status : " + readCompanyTest());
+            System.err.println("Update company Test status : " + updateCompanyTest());
             System.err.println("Read All company Test Status : " + readAllCompanyTest());
             System.err.println("Delete Company Test Status : " + deleteCompanyTest());
             System.err.println("Create Customer Test Status : " + createCustomerTest());
@@ -49,16 +51,18 @@ public class AdminTest {
             System.err.println("Delete Customer Test : " + deleteCustomerTest());
             companyCreateTest();
             createCustomerTest();
+
         } catch (Exception e) {
-            return false;
+            System.err.println("Admin test Status  : " + false);
+            throw new ApplicationException(e.getMessage());
         }
+        System.err.println("Admin Test Status : " + true);
         return true;
 
 
     }
 
-    public boolean adminLoginTest() {
-
+    public boolean adminLoginTest() throws ApplicationException {
         try {
             adminService.createAdmin(AdminDto.builder()
                     .email("Admin@admin.com")
@@ -69,14 +73,13 @@ public class AdminTest {
                     .password("123456").build()));
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
+            System.err.println("Admin Login Test : " + false);
+            throw new ApplicationException(e.getMessage());
         }
-        return jwtDto != null;
+        return true;
     }
 
-    public boolean companyCreateTest() {
-
+    public boolean companyCreateTest() throws Exception {
         CompanyDto companyDtoRes;
         try {
             final CompanyDto companyDto = CompanyDto.builder()
@@ -92,14 +95,14 @@ public class AdminTest {
             companyDtoRes = responseEntity.getBody();
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
+            System.err.println("Create Company Test : " + false);
+            throw new ApplicationException(e.getMessage());
         }
         System.out.println(companyDtoRes);
         return true;
     }
 
-    public boolean updateCompanyTest() {
+    public boolean updateCompanyTest() throws ApplicationException {
         try {
 
             CompanyDto companyDto = CompanyDto.builder()
@@ -114,40 +117,43 @@ public class AdminTest {
             log.info("update company test successfully !");
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         return true;
 
     }
 
-    public boolean readCompanyTest() {
+    public boolean readCompanyTest() throws ApplicationException {
+
         final CompanyDto companyDtoRes;
         try {
             final ResponseEntity<CompanyDto> responseEntity = restTemplate
                     .exchange("http://localhost:8080/admin/company/1", HttpMethod.GET,
                             createHttpHeader(jwtDto), CompanyDto.class);
             companyDtoRes = responseEntity.getBody();
+
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
+            System.err.println("Read company Test: " + false);
+            throw new ApplicationException(e.getMessage());
         }
         log.info("read company by id test successfully! :  \n" + companyDtoRes);
         return true;
     }
 
-    public boolean deleteCompanyTest() {
+    public boolean deleteCompanyTest() throws ApplicationException {
         try {
             restTemplate.exchange("http://localhost:8080/admin/company/1", HttpMethod.DELETE
                     , createHttpHeader(jwtDto), Void.class);
-            log.info("delete company test successfully !");
+
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
+            System.err.println("Delete company Test: " + false);
+            throw new ApplicationException(e.getMessage());
         }
+        log.info("delete company by id test successfully! :  \n" );
         return true;
     }
 
-    public boolean readAllCompanyTest() {
+    public boolean readAllCompanyTest() throws ApplicationException {
         CompanyListDto companyDtoList;
         try {
             final ResponseEntity<CompanyListDto> responseEntity = restTemplate
@@ -158,13 +164,13 @@ public class AdminTest {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("read all test successfully ! : \n " + companyDtoList);
         return true;
     }
 
-    public boolean createCustomerTest() {
+    public boolean createCustomerTest() throws ApplicationException {
         final CustomerDto customerDtoRes;
         try {
             final CustomerDto customerDto = CustomerDto.builder()
@@ -181,14 +187,14 @@ public class AdminTest {
             customerDtoRes = responseEntity.getBody();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("create customer test successfully ! \n " + customerDtoRes);
         return true;
 
     }
 
-    public boolean updateCustomerTest() {
+    public boolean updateCustomerTest() throws ApplicationException {
         try {
             final CustomerDto customerDto = CustomerDto.builder()
                     .id(1L)
@@ -202,25 +208,25 @@ public class AdminTest {
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("update customer successfully !");
         return true;
     }
 
-    public boolean deleteCustomerTest() {
+    public boolean deleteCustomerTest() throws ApplicationException {
         try {
             restTemplate.exchange("http://localhost:8080/admin/customer/1",
                     HttpMethod.DELETE, createHttpHeader(jwtDto), Void.class);
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("delete customer test successfully !");
         return true;
     }
 
-    public boolean readCustomerTest() {
+    public boolean readCustomerTest() throws ApplicationException {
         final CustomerDto customerDtoRes;
         try {
             final ResponseEntity<CustomerDto> responseEntity = restTemplate
@@ -230,14 +236,14 @@ public class AdminTest {
             customerDtoRes = responseEntity.getBody();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("read customer test successfully ! : \n " + customerDtoRes);
         return true;
 
     }
 
-    public boolean readAllCustomerTest() {
+    public boolean readAllCustomerTest() throws ApplicationException {
         CustomerListDto customerList;
         try {
             final ResponseEntity<CustomerListDto> responseEntity = restTemplate
@@ -246,7 +252,7 @@ public class AdminTest {
             customerList = responseEntity.getBody();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return false;
+            throw new ApplicationException(e.getMessage());
         }
         log.info("read all customer test successfully! : \n" + customerList);
         return true;

@@ -3,6 +3,7 @@ package com.example.couponsproject.service;
 
 import com.example.couponsproject.dto.JwtDto;
 import com.example.couponsproject.dto.UserDto;
+import com.example.couponsproject.error.excpetion.ApplicationException;
 import com.example.couponsproject.security.JwtService;
 import com.example.couponsproject.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class AuthService {
 
 
 
-    public JwtDto authenticate(final UserDto user) {
+    public JwtDto authenticate(final UserDto user) throws ApplicationException {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getEmail(), String.valueOf(user.getPassword().hashCode()))
@@ -28,7 +29,7 @@ public class AuthService {
 
 
         } catch (final BadCredentialsException e) {
-            throw new RuntimeException("Incorrect credentials");
+            throw new ApplicationException("Your email or password are incorrect");
         }
 
         return new JwtDto(JwtUtil.generateToken(jwtService.loadUserByUsername(user.getEmail())));

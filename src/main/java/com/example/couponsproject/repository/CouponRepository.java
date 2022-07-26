@@ -6,6 +6,7 @@ import com.example.couponsproject.enums.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -14,5 +15,6 @@ public interface CouponRepository extends JpaRepository<Coupon,Long> {
     boolean existsByCategory(Category category);
     boolean existsByTitle(String title);
     List<Coupon> findByTitle(String title);
+    List<Coupon> findByEndDate(LocalDate localDate);
 
 }

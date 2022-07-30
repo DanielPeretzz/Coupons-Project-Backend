@@ -24,11 +24,12 @@ public class JwtService {
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
 
+    // get credential from the user, fetch the correct user from Db and return him to create a token with user in claims
     public UserDto loadUserByUsername(final String email) throws UsernameNotFoundException {
         return getUser(email);
     }
 
-
+    // get email form the user login find the correct user by unique email & return
     private UserDto getUser(final String email) {
         if (companyRepository.existsByEmail(email)) {
             Company company = companyRepository.findByEmail(email);

@@ -8,18 +8,19 @@ import com.example.couponsproject.dto.AdminDto;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CouponDto;
 import com.example.couponsproject.dto.CustomerDto;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class objectMappingUtil {
 
 //------------------------------------------DTO-TO-Entity---------------------------------------------------------------
+    //This util mapping between Entity to Dto class
 
     public static Admin adminDtoEntity(AdminDto adminDto) {
         return Admin.builder()
@@ -123,7 +124,8 @@ public class objectMappingUtil {
     }
 
 
-//------------------------------------------Entity-TO-Dto---------------------------------------------------------------
+    //------------------------------------------Entity-TO-Dto---------------------------------------------------------------
+    //This util mapping between Dto to Entity class
 
     public static List<CouponDto> entityToCouponDto(List<Coupon> couponList) {
         List<CouponDto> couponDtoList = new ArrayList<>();
@@ -174,10 +176,10 @@ public class objectMappingUtil {
     }
 
 
-    public static List<CompanyDto> entityToListCompanyDto(List<Company> companyList){
+    public static List<CompanyDto> entityToListCompanyDto(List<Company> companyList) {
         List<CompanyDto> companyDtoList = new ArrayList<>();
 
-        for (Company company: companyList) {
+        for (Company company : companyList) {
             companyDtoList.add(entityToCompanyDto(company));
         }
 
@@ -185,11 +187,11 @@ public class objectMappingUtil {
     }
 
 
-    public static List<CustomerDto> entityToListCustomerDto(List<Customer> customerList){
+    public static List<CustomerDto> entityToListCustomerDto(List<Customer> customerList) {
 
         List<CustomerDto> customerDtoList = new ArrayList<>();
 
-        for (Customer customer: customerList) {
+        for (Customer customer : customerList) {
             customerDtoList.add(entityTOCustomerDto(customer));
         }
         return customerDtoList;

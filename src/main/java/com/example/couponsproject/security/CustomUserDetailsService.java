@@ -27,12 +27,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
 
+    //the responsibility of this class load user from db and return him as Security user with authorities (role)
+
+
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         return getUser(email);
     }
 
-
+    //
 
     private User getUser(final String email) {
         if (companyRepository.existsByEmail(email)){

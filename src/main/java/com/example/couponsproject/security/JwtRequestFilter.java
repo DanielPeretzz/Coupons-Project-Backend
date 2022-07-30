@@ -20,7 +20,6 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private static final String BEARER_AUTH_SCHEME_START = "Bearer ";
     private static final int TOKEN_START_INDEX = 7;
-
     private final CustomUserDetailsService userDetailsService;
 
     @Override
@@ -32,6 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith(BEARER_AUTH_SCHEME_START)) {
             final String jwt = authorizationHeader.substring(TOKEN_START_INDEX);
             final String email = com.example.couponsproject.security.JwtUtil.extractEmail(jwt);
+
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 final UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);

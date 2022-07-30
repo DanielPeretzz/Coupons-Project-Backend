@@ -2,6 +2,8 @@ package com.example.couponsproject.task;
 
 import com.example.couponsproject.beans.Coupon;
 import com.example.couponsproject.repository.CouponRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,7 +14,7 @@ import static com.example.couponsproject.constants.Constants.SLEEP_TIME;
 
 
 @Component
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 public class CouponExpirationDailyJob {
     private final CouponRepository couponRepository;

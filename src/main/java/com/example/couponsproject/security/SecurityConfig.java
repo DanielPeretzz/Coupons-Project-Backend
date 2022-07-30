@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userDetailsService;
 
 
+
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/auth/**","/swagger-ui.html","/swagger-ui/#/").permitAll()
+                .antMatchers("/auth/**","/swagger-ui.html").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/customer/**").hasAnyAuthority("CUSTOMER","ADMIN")
                 .antMatchers("/company/**").hasAnyAuthority("COMPANY","ADMIN")

@@ -146,7 +146,7 @@ public class CompanyService {
         if (!companyRepository.existsById(companyId)) {
             throw new EntityNotExistException(EntityType.COMPANY);
         }
-        if (!couponRepository.existsByCategory(category)) { //fix the method repository
+        if (!couponRepository.existsByCategory(category)) {
             throw new EntityNotExistException(EntityType.COUPON);
         }
 

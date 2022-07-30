@@ -1,15 +1,10 @@
 package com.example.couponsproject.clr;
 
-import com.example.couponsproject.controller.AdminController;
 import com.example.couponsproject.controller.AuthController;
-import com.example.couponsproject.dto.AdminDto;
-import com.example.couponsproject.dto.CompanyDto;
-import com.example.couponsproject.dto.CouponDto;
-import com.example.couponsproject.dto.JwtDto;
-import com.example.couponsproject.dto.listDto.CouponLIstDto;
+import com.example.couponsproject.dto.*;
+import com.example.couponsproject.dto.listWrapper.CouponLIstWrapper;
 import com.example.couponsproject.enums.Category;
 import com.example.couponsproject.error.excpetion.ApplicationException;
-import com.example.couponsproject.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -18,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeader;
 import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeaderWithBody;
@@ -34,14 +28,14 @@ public class CompanyTest {
 
     public boolean companyTest() throws ApplicationException {
         try {
-            System.out.println("Company Login Test : " + companyLoginTest());
-            System.out.println("Create Company Status : " + createCouponTest());
-            System.out.println("Update Coupon Status : " + updateCouponTest());
-            System.out.println("Read All Coupon status : " + readAllCouponsTest());
-            System.out.println("Read all coupons by category Status : " + readByCategoryTest());
-            System.out.println("Read all coupons by price Status : " + readCouponUtilPriceTest());
-            System.out.println("Read Company Test Status : " + readCompanyTest());
-            System.out.println("Delete coupon Test Status : " + deleteCouponTest());
+            System.err.println("Company Login Test : " + companyLoginTest());
+            System.err.println("Create Company Status : " + createCouponTest());
+            System.err.println("Update Coupon Status : " + updateCouponTest());
+            System.err.println("Read All Coupon status : " + readAllCouponsTest());
+            System.err.println("Read all coupons by category Status : " + readByCategoryTest());
+            System.err.println("Read all coupons by price Status : " + readCouponUtilPriceTest());
+            System.err.println("Read Company Test Status : " + readCompanyTest());
+            System.err.println("Delete coupon Test Status : " + deleteCouponTest());
             createCouponTest();
         } catch (Exception e) {
             System.err.println("Company test Status  : " + false);
@@ -75,7 +69,7 @@ public class CompanyTest {
                     .companyId(2L)
                     .category(Category.VACATION)
                     .startDate(LocalDate.now())
-                    .endDate(LocalDate.now())
+                    .endDate(LocalDate.of(2022,7,31))
                     .image("test.com")
                     .price(10.0)
                     .amount(10)
@@ -130,11 +124,11 @@ public class CompanyTest {
     }
 
     public boolean readAllCouponsTest() throws ApplicationException {
-        final CouponLIstDto couponList;
+        final CouponLIstWrapper couponList;
         try {
-            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+            final ResponseEntity<CouponLIstWrapper> responseEntity = restTemplate
                     .exchange("http://localhost:8080/company/read-coupon/2",HttpMethod.GET,
-                            createHttpHeader(jwtDto), CouponLIstDto.class);
+                            createHttpHeader(jwtDto), CouponLIstWrapper.class);
 
             couponList = responseEntity.getBody();
         } catch (Exception e) {
@@ -146,12 +140,12 @@ public class CompanyTest {
     }
 
     public boolean readByCategoryTest() throws ApplicationException {
-        final CouponLIstDto couponList;
+        final CouponLIstWrapper couponList;
         try {
 
-            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+            final ResponseEntity<CouponLIstWrapper> responseEntity = restTemplate
                     .exchange("http://localhost:8080/company/read-by-category/2?category=VACATION",HttpMethod.GET,
-                            createHttpHeader(jwtDto), CouponLIstDto.class);
+                            createHttpHeader(jwtDto), CouponLIstWrapper.class);
 
             couponList = responseEntity.getBody();
 
@@ -165,11 +159,11 @@ public class CompanyTest {
     }
 
     public boolean readCouponUtilPriceTest() throws ApplicationException {
-        final CouponLIstDto couponList;
+        final CouponLIstWrapper couponList;
         try {
-            final ResponseEntity<CouponLIstDto> responseEntity = restTemplate
+            final ResponseEntity<CouponLIstWrapper> responseEntity = restTemplate
                     .exchange("http://localhost:8080/company/read-by-price/2?price=10",
-                            HttpMethod.GET,createHttpHeader(jwtDto), CouponLIstDto.class);
+                            HttpMethod.GET,createHttpHeader(jwtDto), CouponLIstWrapper.class);
 
             couponList = responseEntity.getBody();
 

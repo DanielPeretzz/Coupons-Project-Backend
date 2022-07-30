@@ -3,23 +3,16 @@ package com.example.couponsproject.clr;
 import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.controller.AuthController;
 import com.example.couponsproject.dto.*;
-import com.example.couponsproject.dto.listDto.CompanyListDto;
-import com.example.couponsproject.dto.listDto.CustomerListDto;
-import com.example.couponsproject.enums.Role;
+import com.example.couponsproject.dto.listWrapper.CompanyListWrapper;
+import com.example.couponsproject.dto.listWrapper.CustomerListDto;
 import com.example.couponsproject.error.excpetion.ApplicationException;
 import com.example.couponsproject.service.AdminService;
-import com.example.couponsproject.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
 
 import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeader;
 import static com.example.couponsproject.util.HttpHeaderUtil.createHttpHeaderWithBody;
@@ -154,11 +147,11 @@ public class AdminTest {
     }
 
     public boolean readAllCompanyTest() throws ApplicationException {
-        CompanyListDto companyDtoList;
+        CompanyListWrapper companyDtoList;
         try {
-            final ResponseEntity<CompanyListDto> responseEntity = restTemplate
+            final ResponseEntity<CompanyListWrapper> responseEntity = restTemplate
                     .exchange("http://localhost:8080/admin/company",
-                            HttpMethod.GET, createHttpHeader(jwtDto), CompanyListDto.class);
+                            HttpMethod.GET, createHttpHeader(jwtDto), CompanyListWrapper.class);
 
             companyDtoList = responseEntity.getBody();
 
@@ -198,7 +191,7 @@ public class AdminTest {
         try {
             final CustomerDto customerDto = CustomerDto.builder()
                     .id(1L)
-                    .lastName("tahat")
+                    .lastName("afterUpdate")
                     .email("update@gmail.com")
                     .build();
 

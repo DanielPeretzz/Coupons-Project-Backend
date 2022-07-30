@@ -1,7 +1,7 @@
 package com.example.couponsproject.controller;
 
 import com.example.couponsproject.dto.CustomerDto;
-import com.example.couponsproject.dto.listDto.CouponLIstDto;
+import com.example.couponsproject.dto.listWrapper.CouponLIstWrapper;
 import com.example.couponsproject.enums.Category;
 import com.example.couponsproject.error.excpetion.EntityNotExistException;
 import com.example.couponsproject.error.excpetion.FailedToPurchaseException;
@@ -25,25 +25,25 @@ public class CustomerController {
 
     @GetMapping("/coupon/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
-    public CouponLIstDto getCoupon(@PathVariable final Long customerId) throws EntityNotExistException {
-        return new CouponLIstDto(customerService.getCoupon(customerId));
+    public CouponLIstWrapper getCoupon(@PathVariable final Long customerId) throws EntityNotExistException {
+        return new CouponLIstWrapper(customerService.getCoupon(customerId));
     }
 
     @GetMapping("/category/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
-    public CouponLIstDto getCouponByCategory(@PathVariable(name = "customerId") final Long customerId,
-                                               @RequestParam(name = "category") Category category)
+    public CouponLIstWrapper getCouponByCategory(@PathVariable(name = "customerId") final Long customerId,
+                                                 @RequestParam(name = "category") Category category)
             throws EntityNotExistException {
-        return new CouponLIstDto(customerService.getCouponByCategory(customerId, category));
+        return new CouponLIstWrapper(customerService.getCouponByCategory(customerId, category));
     }
 
 
     @GetMapping("/price/{customerId}")
     @ResponseStatus(HttpStatus.FOUND)
-    public CouponLIstDto getCouponByPrice(@PathVariable(name = "customerId") final Long customerId,
-                                          @RequestParam(name = "price") final double price)
+    public CouponLIstWrapper getCouponByPrice(@PathVariable(name = "customerId") final Long customerId,
+                                              @RequestParam(name = "price") final double price)
             throws EntityNotExistException {
-        return new CouponLIstDto(customerService.getCouponByPrice(customerId, price));
+        return new CouponLIstWrapper(customerService.getCouponByPrice(customerId, price));
     }
 
     @GetMapping("/{customerId}")

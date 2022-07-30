@@ -81,6 +81,11 @@ public class AdminService {
 
         companyDto.setRole(Role.COMPANY);
 
+        if (companyDto.getEmail() == null){
+            assert getCompany != null;
+            companyDto.setEmail(getCompany.getEmail());
+        }
+
         if (companyDto.getName() != null) {
             assert getCompany != null;
             if (!Objects.equals(companyDto.getName(), getCompany.getName())) {
@@ -130,14 +135,14 @@ public class AdminService {
 
         List<CompanyDto> companyList = objectMappingUtil.entityToListCompanyDto(companyRepository.findAll());
 
+        if (companyList.isEmpty()) {
+            throw new EntityNotExistException(EntityType.COMPANY);
+        }
+
         for (CompanyDto company : companyList) {
             List<CouponDto> couponList = objectMappingUtil
                     .entityToCouponDto(couponRepository.findByCompanyId(company.getId()));
             company.setCouponDtoList(couponList);
-        }
-
-        if (companyList.isEmpty()) {
-            throw new EntityNotExistException(EntityType.COMPANY);
         }
 
         return companyList;
@@ -154,8 +159,11 @@ public class AdminService {
         if (customerRepository.existsByEmail(customerDto.getEmail())) {
             throw new EntityExistException(EntityType.CUSTOMER);
         }
+
         log.info("customer created !");
+
         customerDto.setRole(Role.CUSTOMER);
+
         return customerRepository.save(objectMappingUtil.customerDtoToEntity(customerDto));
 
     }
@@ -171,7 +179,7 @@ public class AdminService {
             throw new UserValidationException();
         }
         Customer customer = optionalCustomer(customerRepository.findById(customerDto.getId()));
-        customerDto.setRole(Role.COMPANY);
+        customerDto.setRole(Role.CUSTOMER);
         if (customerDto.getFirstName() == null) {
             assert customer != null;
             customerDto.setFirstName(customer.getFirstName());

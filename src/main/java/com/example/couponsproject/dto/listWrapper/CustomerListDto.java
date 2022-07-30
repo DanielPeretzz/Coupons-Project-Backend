@@ -1,6 +1,5 @@
-package com.example.couponsproject.dto.listDto;
+package com.example.couponsproject.dto.listWrapper;
 
-import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CustomerDto;
 import lombok.*;
 

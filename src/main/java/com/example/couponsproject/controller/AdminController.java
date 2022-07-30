@@ -3,8 +3,8 @@ package com.example.couponsproject.controller;
 import com.example.couponsproject.beans.Customer;
 import com.example.couponsproject.dto.CompanyDto;
 import com.example.couponsproject.dto.CustomerDto;
-import com.example.couponsproject.dto.listDto.CompanyListDto;
-import com.example.couponsproject.dto.listDto.CustomerListDto;
+import com.example.couponsproject.dto.listWrapper.CompanyListWrapper;
+import com.example.couponsproject.dto.listWrapper.CustomerListDto;
 import com.example.couponsproject.error.excpetion.EntityExistException;
 import com.example.couponsproject.error.excpetion.EntityNotExistException;
 import com.example.couponsproject.error.excpetion.UpdateEntityException;
@@ -13,8 +13,6 @@ import com.example.couponsproject.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.example.couponsproject.util.objectMappingUtil.entityToCompanyDto;
 
@@ -52,8 +50,8 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/company")
-    public CompanyListDto readAllCompany() throws EntityNotExistException {
-        return new CompanyListDto(adminService.readAllCompany());
+    public CompanyListWrapper readAllCompany() throws EntityNotExistException {
+        return new CompanyListWrapper(adminService.readAllCompany());
     }
 
     //-------------------------------------------------Customer-controller----------------------------------------------

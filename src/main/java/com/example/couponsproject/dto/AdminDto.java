@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 
+
 public class AdminDto extends UserDto {
 
     private Long id;

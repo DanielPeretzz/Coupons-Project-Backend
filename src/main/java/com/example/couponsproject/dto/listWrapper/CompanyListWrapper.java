@@ -1,6 +1,5 @@
-package com.example.couponsproject.dto.listDto;
+package com.example.couponsproject.dto.listWrapper;
 
-import com.example.couponsproject.beans.Company;
 import com.example.couponsproject.dto.CompanyDto;
 import lombok.*;
 
@@ -11,6 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyListDto {
+public class CompanyListWrapper {
     private List<CompanyDto> companyDtoList;
 }

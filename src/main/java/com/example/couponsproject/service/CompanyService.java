@@ -149,11 +149,8 @@ public class CompanyService {
         if (!couponRepository.existsByCategory(category)) { //fix the method repository
             throw new EntityNotExistException(EntityType.COUPON);
         }
-        return entityToCouponDto(couponRepository.findByCompanyId(companyId)
-                .stream()
-                .filter(coupon -> coupon.getCategory() == category)
-                .collect(Collectors.toList()));
 
+        return entityToCouponDto(couponRepository.findByCategoryAndCompanyId(category,companyId));
     }
 
     //--------------------------------------------read-Coupon-by-max-price----------------------------------------------
